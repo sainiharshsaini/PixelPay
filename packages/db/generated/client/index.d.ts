@@ -18,6 +18,28 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Merchant
+ * 
+ */
+export type Merchant = $Result.DefaultSelection<Prisma.$MerchantPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const AuthType: {
+  Google: 'Google',
+  Github: 'Github'
+};
+
+export type AuthType = (typeof AuthType)[keyof typeof AuthType]
+
+}
+
+export type AuthType = $Enums.AuthType
+
+export const AuthType: typeof $Enums.AuthType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -153,6 +175,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.merchant`: Exposes CRUD operations for the **Merchant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Merchants
+    * const merchants = await prisma.merchant.findMany()
+    * ```
+    */
+  get merchant(): Prisma.MerchantDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -593,7 +625,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    Merchant: 'Merchant'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -612,7 +645,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "merchant"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -687,6 +720,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Merchant: {
+        payload: Prisma.$MerchantPayload<ExtArgs>
+        fields: Prisma.MerchantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MerchantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MerchantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          findFirst: {
+            args: Prisma.MerchantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MerchantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          findMany: {
+            args: Prisma.MerchantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          create: {
+            args: Prisma.MerchantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          createMany: {
+            args: Prisma.MerchantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MerchantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          delete: {
+            args: Prisma.MerchantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          update: {
+            args: Prisma.MerchantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          deleteMany: {
+            args: Prisma.MerchantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MerchantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MerchantUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          upsert: {
+            args: Prisma.MerchantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          aggregate: {
+            args: Prisma.MerchantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMerchant>
+          }
+          groupBy: {
+            args: Prisma.MerchantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MerchantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MerchantCountArgs<ExtArgs>
+            result: $Utils.Optional<MerchantCountAggregateOutputType> | number
           }
         }
       }
@@ -775,6 +882,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    merchant?: MerchantOmit
   }
 
   /* Types for Logging */
@@ -893,18 +1001,24 @@ export namespace Prisma {
     id: number | null
     email: string | null
     name: string | null
+    number: string | null
+    password: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
     email: string | null
     name: string | null
+    number: string | null
+    password: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     email: number
     name: number
+    number: number
+    password: number
     _all: number
   }
 
@@ -921,18 +1035,24 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    number?: true
+    password?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
     name?: true
+    number?: true
+    password?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
     name?: true
+    number?: true
+    password?: true
     _all?: true
   }
 
@@ -1024,8 +1144,10 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: number
-    email: string
-    name: string
+    email: string | null
+    name: string | null
+    number: string
+    password: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1051,35 +1173,45 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    number?: boolean
+    password?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
     name?: boolean
+    number?: boolean
+    password?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     email?: boolean
     name?: boolean
+    number?: boolean
+    password?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     email?: boolean
     name?: boolean
+    number?: boolean
+    password?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "number" | "password", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      email: string
-      name: string
+      email: string | null
+      name: string | null
+      number: string
+      password: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1506,6 +1638,8 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly number: FieldRef<"User", 'String'>
+    readonly password: FieldRef<"User", 'String'>
   }
     
 
@@ -1873,6 +2007,1022 @@ export namespace Prisma {
 
 
   /**
+   * Model Merchant
+   */
+
+  export type AggregateMerchant = {
+    _count: MerchantCountAggregateOutputType | null
+    _avg: MerchantAvgAggregateOutputType | null
+    _sum: MerchantSumAggregateOutputType | null
+    _min: MerchantMinAggregateOutputType | null
+    _max: MerchantMaxAggregateOutputType | null
+  }
+
+  export type MerchantAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type MerchantSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type MerchantMinAggregateOutputType = {
+    id: number | null
+    email: string | null
+    name: string | null
+    auth_type: $Enums.AuthType | null
+  }
+
+  export type MerchantMaxAggregateOutputType = {
+    id: number | null
+    email: string | null
+    name: string | null
+    auth_type: $Enums.AuthType | null
+  }
+
+  export type MerchantCountAggregateOutputType = {
+    id: number
+    email: number
+    name: number
+    auth_type: number
+    _all: number
+  }
+
+
+  export type MerchantAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type MerchantSumAggregateInputType = {
+    id?: true
+  }
+
+  export type MerchantMinAggregateInputType = {
+    id?: true
+    email?: true
+    name?: true
+    auth_type?: true
+  }
+
+  export type MerchantMaxAggregateInputType = {
+    id?: true
+    email?: true
+    name?: true
+    auth_type?: true
+  }
+
+  export type MerchantCountAggregateInputType = {
+    id?: true
+    email?: true
+    name?: true
+    auth_type?: true
+    _all?: true
+  }
+
+  export type MerchantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Merchant to aggregate.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Merchants
+    **/
+    _count?: true | MerchantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MerchantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MerchantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MerchantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MerchantMaxAggregateInputType
+  }
+
+  export type GetMerchantAggregateType<T extends MerchantAggregateArgs> = {
+        [P in keyof T & keyof AggregateMerchant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMerchant[P]>
+      : GetScalarType<T[P], AggregateMerchant[P]>
+  }
+
+
+
+
+  export type MerchantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantWhereInput
+    orderBy?: MerchantOrderByWithAggregationInput | MerchantOrderByWithAggregationInput[]
+    by: MerchantScalarFieldEnum[] | MerchantScalarFieldEnum
+    having?: MerchantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MerchantCountAggregateInputType | true
+    _avg?: MerchantAvgAggregateInputType
+    _sum?: MerchantSumAggregateInputType
+    _min?: MerchantMinAggregateInputType
+    _max?: MerchantMaxAggregateInputType
+  }
+
+  export type MerchantGroupByOutputType = {
+    id: number
+    email: string
+    name: string | null
+    auth_type: $Enums.AuthType
+    _count: MerchantCountAggregateOutputType | null
+    _avg: MerchantAvgAggregateOutputType | null
+    _sum: MerchantSumAggregateOutputType | null
+    _min: MerchantMinAggregateOutputType | null
+    _max: MerchantMaxAggregateOutputType | null
+  }
+
+  type GetMerchantGroupByPayload<T extends MerchantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MerchantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MerchantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MerchantGroupByOutputType[P]>
+            : GetScalarType<T[P], MerchantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MerchantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    name?: boolean
+    auth_type?: boolean
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    name?: boolean
+    auth_type?: boolean
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    email?: boolean
+    name?: boolean
+    auth_type?: boolean
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectScalar = {
+    id?: boolean
+    email?: boolean
+    name?: boolean
+    auth_type?: boolean
+  }
+
+  export type MerchantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "auth_type", ExtArgs["result"]["merchant"]>
+
+  export type $MerchantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Merchant"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      email: string
+      name: string | null
+      auth_type: $Enums.AuthType
+    }, ExtArgs["result"]["merchant"]>
+    composites: {}
+  }
+
+  type MerchantGetPayload<S extends boolean | null | undefined | MerchantDefaultArgs> = $Result.GetResult<Prisma.$MerchantPayload, S>
+
+  type MerchantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MerchantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MerchantCountAggregateInputType | true
+    }
+
+  export interface MerchantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Merchant'], meta: { name: 'Merchant' } }
+    /**
+     * Find zero or one Merchant that matches the filter.
+     * @param {MerchantFindUniqueArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MerchantFindUniqueArgs>(args: SelectSubset<T, MerchantFindUniqueArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Merchant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MerchantFindUniqueOrThrowArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MerchantFindUniqueOrThrowArgs>(args: SelectSubset<T, MerchantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Merchant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindFirstArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MerchantFindFirstArgs>(args?: SelectSubset<T, MerchantFindFirstArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Merchant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindFirstOrThrowArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MerchantFindFirstOrThrowArgs>(args?: SelectSubset<T, MerchantFindFirstOrThrowArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Merchants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Merchants
+     * const merchants = await prisma.merchant.findMany()
+     * 
+     * // Get first 10 Merchants
+     * const merchants = await prisma.merchant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const merchantWithIdOnly = await prisma.merchant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MerchantFindManyArgs>(args?: SelectSubset<T, MerchantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Merchant.
+     * @param {MerchantCreateArgs} args - Arguments to create a Merchant.
+     * @example
+     * // Create one Merchant
+     * const Merchant = await prisma.merchant.create({
+     *   data: {
+     *     // ... data to create a Merchant
+     *   }
+     * })
+     * 
+     */
+    create<T extends MerchantCreateArgs>(args: SelectSubset<T, MerchantCreateArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Merchants.
+     * @param {MerchantCreateManyArgs} args - Arguments to create many Merchants.
+     * @example
+     * // Create many Merchants
+     * const merchant = await prisma.merchant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MerchantCreateManyArgs>(args?: SelectSubset<T, MerchantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Merchants and returns the data saved in the database.
+     * @param {MerchantCreateManyAndReturnArgs} args - Arguments to create many Merchants.
+     * @example
+     * // Create many Merchants
+     * const merchant = await prisma.merchant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Merchants and only return the `id`
+     * const merchantWithIdOnly = await prisma.merchant.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MerchantCreateManyAndReturnArgs>(args?: SelectSubset<T, MerchantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Merchant.
+     * @param {MerchantDeleteArgs} args - Arguments to delete one Merchant.
+     * @example
+     * // Delete one Merchant
+     * const Merchant = await prisma.merchant.delete({
+     *   where: {
+     *     // ... filter to delete one Merchant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MerchantDeleteArgs>(args: SelectSubset<T, MerchantDeleteArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Merchant.
+     * @param {MerchantUpdateArgs} args - Arguments to update one Merchant.
+     * @example
+     * // Update one Merchant
+     * const merchant = await prisma.merchant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MerchantUpdateArgs>(args: SelectSubset<T, MerchantUpdateArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Merchants.
+     * @param {MerchantDeleteManyArgs} args - Arguments to filter Merchants to delete.
+     * @example
+     * // Delete a few Merchants
+     * const { count } = await prisma.merchant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MerchantDeleteManyArgs>(args?: SelectSubset<T, MerchantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Merchants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Merchants
+     * const merchant = await prisma.merchant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MerchantUpdateManyArgs>(args: SelectSubset<T, MerchantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Merchants and returns the data updated in the database.
+     * @param {MerchantUpdateManyAndReturnArgs} args - Arguments to update many Merchants.
+     * @example
+     * // Update many Merchants
+     * const merchant = await prisma.merchant.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Merchants and only return the `id`
+     * const merchantWithIdOnly = await prisma.merchant.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MerchantUpdateManyAndReturnArgs>(args: SelectSubset<T, MerchantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Merchant.
+     * @param {MerchantUpsertArgs} args - Arguments to update or create a Merchant.
+     * @example
+     * // Update or create a Merchant
+     * const merchant = await prisma.merchant.upsert({
+     *   create: {
+     *     // ... data to create a Merchant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Merchant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MerchantUpsertArgs>(args: SelectSubset<T, MerchantUpsertArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Merchants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCountArgs} args - Arguments to filter Merchants to count.
+     * @example
+     * // Count the number of Merchants
+     * const count = await prisma.merchant.count({
+     *   where: {
+     *     // ... the filter for the Merchants we want to count
+     *   }
+     * })
+    **/
+    count<T extends MerchantCountArgs>(
+      args?: Subset<T, MerchantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MerchantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Merchant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MerchantAggregateArgs>(args: Subset<T, MerchantAggregateArgs>): Prisma.PrismaPromise<GetMerchantAggregateType<T>>
+
+    /**
+     * Group by Merchant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MerchantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MerchantGroupByArgs['orderBy'] }
+        : { orderBy?: MerchantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MerchantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMerchantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Merchant model
+   */
+  readonly fields: MerchantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Merchant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MerchantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Merchant model
+   */ 
+  interface MerchantFieldRefs {
+    readonly id: FieldRef<"Merchant", 'Int'>
+    readonly email: FieldRef<"Merchant", 'String'>
+    readonly name: FieldRef<"Merchant", 'String'>
+    readonly auth_type: FieldRef<"Merchant", 'AuthType'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Merchant findUnique
+   */
+  export type MerchantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant findUniqueOrThrow
+   */
+  export type MerchantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant findFirst
+   */
+  export type MerchantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Merchants.
+     */
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant findFirstOrThrow
+   */
+  export type MerchantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Merchants.
+     */
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant findMany
+   */
+  export type MerchantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter, which Merchants to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant create
+   */
+  export type MerchantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Merchant.
+     */
+    data: XOR<MerchantCreateInput, MerchantUncheckedCreateInput>
+  }
+
+  /**
+   * Merchant createMany
+   */
+  export type MerchantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Merchants.
+     */
+    data: MerchantCreateManyInput | MerchantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Merchant createManyAndReturn
+   */
+  export type MerchantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data used to create many Merchants.
+     */
+    data: MerchantCreateManyInput | MerchantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Merchant update
+   */
+  export type MerchantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Merchant.
+     */
+    data: XOR<MerchantUpdateInput, MerchantUncheckedUpdateInput>
+    /**
+     * Choose, which Merchant to update.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant updateMany
+   */
+  export type MerchantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Merchants.
+     */
+    data: XOR<MerchantUpdateManyMutationInput, MerchantUncheckedUpdateManyInput>
+    /**
+     * Filter which Merchants to update
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Merchant updateManyAndReturn
+   */
+  export type MerchantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data used to update Merchants.
+     */
+    data: XOR<MerchantUpdateManyMutationInput, MerchantUncheckedUpdateManyInput>
+    /**
+     * Filter which Merchants to update
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Merchant upsert
+   */
+  export type MerchantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Merchant to update in case it exists.
+     */
+    where: MerchantWhereUniqueInput
+    /**
+     * In case the Merchant found by the `where` argument doesn't exist, create a new Merchant with this data.
+     */
+    create: XOR<MerchantCreateInput, MerchantUncheckedCreateInput>
+    /**
+     * In case the Merchant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MerchantUpdateInput, MerchantUncheckedUpdateInput>
+  }
+
+  /**
+   * Merchant delete
+   */
+  export type MerchantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Filter which Merchant to delete.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant deleteMany
+   */
+  export type MerchantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Merchants to delete
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Merchant without action
+   */
+  export type MerchantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1889,10 +3039,22 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
-    name: 'name'
+    name: 'name',
+    number: 'number',
+    password: 'password'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const MerchantScalarFieldEnum: {
+    id: 'id',
+    email: 'email',
+    name: 'name',
+    auth_type: 'auth_type'
+  };
+
+  export type MerchantScalarFieldEnum = (typeof MerchantScalarFieldEnum)[keyof typeof MerchantScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1909,6 +3071,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -1945,6 +3115,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'AuthType'
+   */
+  export type EnumAuthTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AuthType[]'
+   */
+  export type ListEnumAuthTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AuthType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -1966,29 +3150,37 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: IntFilter<"User"> | number
-    email?: StringFilter<"User"> | string
-    name?: StringFilter<"User"> | string
+    email?: StringNullableFilter<"User"> | string | null
+    name?: StringNullableFilter<"User"> | string | null
+    number?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
-    email?: SortOrder
-    name?: SortOrder
+    email?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    number?: SortOrder
+    password?: SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     email?: string
+    number?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    name?: StringFilter<"User"> | string
-  }, "id" | "email">
+    name?: StringNullableFilter<"User"> | string | null
+    password?: StringFilter<"User"> | string
+  }, "id" | "email" | "number">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
-    email?: SortOrder
-    name?: SortOrder
+    email?: SortOrderInput | SortOrder
+    name?: SortOrderInput | SortOrder
+    number?: SortOrder
+    password?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -2001,47 +3193,158 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"User"> | number
-    email?: StringWithAggregatesFilter<"User"> | string
-    name?: StringWithAggregatesFilter<"User"> | string
+    email?: StringNullableWithAggregatesFilter<"User"> | string | null
+    name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    number?: StringWithAggregatesFilter<"User"> | string
+    password?: StringWithAggregatesFilter<"User"> | string
+  }
+
+  export type MerchantWhereInput = {
+    AND?: MerchantWhereInput | MerchantWhereInput[]
+    OR?: MerchantWhereInput[]
+    NOT?: MerchantWhereInput | MerchantWhereInput[]
+    id?: IntFilter<"Merchant"> | number
+    email?: StringFilter<"Merchant"> | string
+    name?: StringNullableFilter<"Merchant"> | string | null
+    auth_type?: EnumAuthTypeFilter<"Merchant"> | $Enums.AuthType
+  }
+
+  export type MerchantOrderByWithRelationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    name?: SortOrderInput | SortOrder
+    auth_type?: SortOrder
+  }
+
+  export type MerchantWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    email?: string
+    AND?: MerchantWhereInput | MerchantWhereInput[]
+    OR?: MerchantWhereInput[]
+    NOT?: MerchantWhereInput | MerchantWhereInput[]
+    name?: StringNullableFilter<"Merchant"> | string | null
+    auth_type?: EnumAuthTypeFilter<"Merchant"> | $Enums.AuthType
+  }, "id" | "email">
+
+  export type MerchantOrderByWithAggregationInput = {
+    id?: SortOrder
+    email?: SortOrder
+    name?: SortOrderInput | SortOrder
+    auth_type?: SortOrder
+    _count?: MerchantCountOrderByAggregateInput
+    _avg?: MerchantAvgOrderByAggregateInput
+    _max?: MerchantMaxOrderByAggregateInput
+    _min?: MerchantMinOrderByAggregateInput
+    _sum?: MerchantSumOrderByAggregateInput
+  }
+
+  export type MerchantScalarWhereWithAggregatesInput = {
+    AND?: MerchantScalarWhereWithAggregatesInput | MerchantScalarWhereWithAggregatesInput[]
+    OR?: MerchantScalarWhereWithAggregatesInput[]
+    NOT?: MerchantScalarWhereWithAggregatesInput | MerchantScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Merchant"> | number
+    email?: StringWithAggregatesFilter<"Merchant"> | string
+    name?: StringNullableWithAggregatesFilter<"Merchant"> | string | null
+    auth_type?: EnumAuthTypeWithAggregatesFilter<"Merchant"> | $Enums.AuthType
   }
 
   export type UserCreateInput = {
-    email: string
-    name: string
+    email?: string | null
+    name?: string | null
+    number: string
+    password: string
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
-    email: string
-    name: string
+    email?: string | null
+    name?: string | null
+    number: string
+    password: string
   }
 
   export type UserUpdateInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateManyInput = {
     id?: number
-    email: string
-    name: string
+    email?: string | null
+    name?: string | null
+    number: string
+    password: string
   }
 
   export type UserUpdateManyMutationInput = {
-    email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    number?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MerchantCreateInput = {
+    email: string
+    name?: string | null
+    auth_type: $Enums.AuthType
+  }
+
+  export type MerchantUncheckedCreateInput = {
+    id?: number
+    email: string
+    name?: string | null
+    auth_type: $Enums.AuthType
+  }
+
+  export type MerchantUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_type?: EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
+  }
+
+  export type MerchantUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_type?: EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
+  }
+
+  export type MerchantCreateManyInput = {
+    id?: number
+    email: string
+    name?: string | null
+    auth_type: $Enums.AuthType
+  }
+
+  export type MerchantUpdateManyMutationInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_type?: EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
+  }
+
+  export type MerchantUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    auth_type?: EnumAuthTypeFieldUpdateOperationsInput | $Enums.AuthType
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2053,6 +3356,21 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2070,10 +3388,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    number?: SortOrder
+    password?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -2084,12 +3409,16 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    number?: SortOrder
+    password?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    number?: SortOrder
+    password?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -2112,6 +3441,24 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -2130,6 +3477,56 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type EnumAuthTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthType | EnumAuthTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTypeFilter<$PrismaModel> | $Enums.AuthType
+  }
+
+  export type MerchantCountOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    auth_type?: SortOrder
+  }
+
+  export type MerchantAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type MerchantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    auth_type?: SortOrder
+  }
+
+  export type MerchantMinOrderByAggregateInput = {
+    id?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    auth_type?: SortOrder
+  }
+
+  export type MerchantSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type EnumAuthTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthType | EnumAuthTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTypeWithAggregatesFilter<$PrismaModel> | $Enums.AuthType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthTypeFilter<$PrismaModel>
+    _max?: NestedEnumAuthTypeFilter<$PrismaModel>
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2142,6 +3539,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumAuthTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AuthType
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -2151,6 +3552,20 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2194,6 +3609,34 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -2209,6 +3652,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedEnumAuthTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthType | EnumAuthTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTypeFilter<$PrismaModel> | $Enums.AuthType
+  }
+
+  export type NestedEnumAuthTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AuthType | EnumAuthTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AuthType[] | ListEnumAuthTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAuthTypeWithAggregatesFilter<$PrismaModel> | $Enums.AuthType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAuthTypeFilter<$PrismaModel>
+    _max?: NestedEnumAuthTypeFilter<$PrismaModel>
   }
 
 
