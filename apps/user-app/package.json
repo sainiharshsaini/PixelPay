@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@repo/db": "workspace:*",
-    "@repo/recoil-store": "workspace:*",
     "@repo/ui": "workspace:*",
     "@tailwindcss/postcss": "^4.1.3",
     "bcrypt": "^5.1.1",
