@@ -63,6 +63,9 @@ importers:
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@repo/recoil-store':
+        specifier: workspace:*
+        version: link:../../packages/recoil-store
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -167,6 +170,16 @@ importers:
       typescript-eslint:
         specifier: ^8.29.0
         version: 8.29.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.2)
+
+  packages/recoil-store:
+    dependencies:
+      recoil:
+        specifier: ^0.7.7
+        version: 0.7.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
 
   packages/typescript-config: {}
 

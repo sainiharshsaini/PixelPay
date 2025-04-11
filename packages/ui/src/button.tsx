@@ -4,11 +4,12 @@ import { ReactNode } from "react";
 
 interface ButtonProps {
   children: ReactNode;
+  onClick: () => void;
 }
 
-export const Button = ({ children }: ButtonProps) => {
+export const Button = ({ onClick, children }: ButtonProps) => {
   return (
-    <button type="button" className="text-white border border-red-500 bg-gray-800 hover:bg-gray-900 ">
+    <button onClick={onClick} type="button">
       {children}
     </button>
 

@@ -1,13 +1,12 @@
-import { Button } from "@repo/ui/button";
-import { prisma } from "@repo/db";
+"use client"
+import { signIn, signOut, useSession } from "next-auth/react";
+import Appbar from "@repo/ui/Appbar";
 
-export default async function Home() {
-  const user = await prisma.user.findFirst() 
+export default function Page() {
+  const session = useSession();
   return (
     <div>
-      <Button>harsh saini</Button>
-      {user?.name ?? "No user added yet"}
-      <p className="underline text-red-500">harsh saini paragraph</p>
+      <Appbar onSignin={signIn} onSignout={signOut} user={session.data?.user} />
     </div>
   );
-} 
+}
