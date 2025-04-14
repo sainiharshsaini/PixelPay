@@ -30,20 +30,20 @@ const SignInForm = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto mt-10 space-y-4 p-4 border rounded-md">
-        <div>
-          <label htmlFor="credential">Email or Phone</label>
-          <input id="credential" type="text" className="w-full border px-3 py-2 rounded" {...register('credential')} placeholder="Enter email or phone"/>
-          {errors.credential && <p className="text-red-500 text-sm">{errors.credential.message}</p>}
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-4 pt-4">
+        <div className="mb-4">
+          <label htmlFor="credential" className="block mb-1 font-medium">Email or Phone</label>
+          <input id="credential" type="text" className={`w-full px-4 py-2 border rounded outline-none ${errors.credential ? "border-red-500" : "border-gray-300"}`} {...register('credential')} placeholder="Enter email or phone"/>
+          {errors.credential && <p className="text-red-500 text-sm mt-1">{errors.credential.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="password">Password</label>
-          <input type="password" className="w-full border px-3 py-2 rounded" {...register('password')} placeholder="Enter password"/>
-          {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          <label htmlFor="password" className="block mb-1 font-medium">Password</label>
+          <input type="password" className={`w-full px-4 py-2 border rounded outline-none ${errors.password ? "border-red-500" : "border-gray-300"}`} {...register('password')} placeholder="Enter password"/>
+          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
         </div>
 
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Sign In</button>
+        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Sign In</button>
       </form>
       <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>
         or
