@@ -1,7 +1,6 @@
 import { prisma } from "@repo/db";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import { signIn } from "next-auth/react";
 
 export const authOptions = {
     providers: [
