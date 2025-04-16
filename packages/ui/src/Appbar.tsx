@@ -1,6 +1,4 @@
-import React from 'react'
 import { Button } from "./button";
-import { text } from 'stream/consumers';
 
 interface AppbarProps {
     user?: {
@@ -11,15 +9,17 @@ interface AppbarProps {
     onSignout: any
 }
 
-const Appbar = ({user, onSignin, onSignout}: AppbarProps) => {
-    return (
-        <div style={{display: "flex", justifyContent: "space-between", padding:"10px" ,backgroundColor: "gray"}}>
-            <div>PayTM</div>
-            <div>
-            <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
-            </div>
+export const Appbar = ({
+    user,
+    onSignin,
+    onSignout
+}: AppbarProps) => {
+    return <div className="flex justify-between border-b px-4 border-slate-300">
+        <div className="text-lg flex flex-col justify-center">
+            PayTM
         </div>
-    )
+        <div className="flex flex-col justify-center pt-2">
+            <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
+        </div>
+    </div>
 }
-
-export default Appbar
