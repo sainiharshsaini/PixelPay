@@ -1,8 +1,11 @@
+import { SendCard } from "../../../components/SendCard"
 
 
 const P2pTransfer = () => {
     return (
-        <div>P2pTransfer</div>
+        <div className="w-full">
+            <SendCard/>
+        </div>
     )
 }
 

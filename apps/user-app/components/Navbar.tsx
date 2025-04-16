@@ -13,7 +13,7 @@ const Navbar = () => {
                 <div className="text-2xl font-semibold font-serif  text-blue-800">
                     Paytm
                 </div>
-                <div className="text-white py-2 px-6 rounded bg-blue-500 hover:bg-blue-600 hidden md:block">
+                <div className="text-white py-2 px-6 rounded bg-blue-500 hover:bg-blue-600 hidden md:block cursor-pointer">
                     <button onClick={session.data?.user ? signOut : signIn}>{session.data?.user ? "Logout" : "Login"}</button>
                 </div>
             </div>
