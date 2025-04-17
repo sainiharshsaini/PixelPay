@@ -43,10 +43,10 @@ export const authOptions = {
                     };
 
                     return {
-                        id: isUserExist.id,
+                        id: isUserExist.id.toString(),
                         name: isUserExist.name,
                         phone: isUserExist.phone,
-                        email: isUserExist.phone
+                        email: isUserExist.email
                     };
                 }
 
@@ -78,7 +78,7 @@ export const authOptions = {
     callbacks: {
         async session({ token, session}: any) {
             if (token?.sub) {
-                session.user.id = token.sub.toString();
+                session.user.id = token.sub;
             }
             return session
         }

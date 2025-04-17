@@ -14,7 +14,7 @@ export async function p2pTransfer(to: string, amount: number) {
     }
     const toUser = await prisma.user.findFirst({
         where: {
-            number: to
+            phone: to
         }
     });
 

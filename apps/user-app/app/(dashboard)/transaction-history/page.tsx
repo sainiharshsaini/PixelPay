@@ -1,7 +1,12 @@
+import { Button } from "@repo/ui/button"
 
 const TransactionHistory = () => {
     return (
-        <div>TransactionHistory</div>
+        <div>
+            <Button>
+                harsh
+            </Button>
+        </div>
     )
 }
 

@@ -1,0 +1,19 @@
+{
+  "name": "@repo/tailwind-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "config/tailwind.config.ts",
+    "postcss.config.mjs"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.4",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.4"
+  }
+}
