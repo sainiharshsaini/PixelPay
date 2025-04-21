@@ -30,3 +30,9 @@ export const signInSchema = z.object({
         .min(1, 'Password is required')
         .min(6, 'Password must be at least 6 characters'),
 })
+
+export const paymentSchema = z.object({
+    token: z.string(),
+    user_identifier: z.string(),
+    amount: z.string().regex(/^\d+$/, "Amount must be numeric")
+})

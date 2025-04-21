@@ -1,13 +1,9 @@
-import { Button } from "@repo/ui/button"
+import React from 'react'
 
 const TransactionHistory = () => {
-    return (
-        <div>
-            <Button>
-                harsh
-            </Button>
-        </div>
-    )
+  return (
+    <div>TransactionHistory</div>
+  )
 }
 
 export default TransactionHistory

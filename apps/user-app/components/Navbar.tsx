@@ -1,11 +1,9 @@
 "use client"
 
 import { signIn, signOut, useSession } from "next-auth/react"
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
     const session = useSession();
-    const router = useRouter();
 
     return (
         <div>
@@ -14,7 +12,7 @@ const Navbar = () => {
                     Paytm
                 </div>
                 <div className="text-white py-2 px-6 rounded bg-blue-500 hover:bg-blue-600 hidden md:block cursor-pointer">
-                    <button onClick={session.data?.user ? signOut : signIn}>{session.data?.user ? "Logout" : "Login"}</button>
+                    <button onClick={() => session.data?.user ? signOut : signIn}>{session.data?.user ? "Logout" : "Login"}</button>
                 </div>
             </div>
         </div>

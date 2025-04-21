@@ -1,6 +1,8 @@
 import { prisma } from "@repo/db";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
+import { signInSchema } from "@repo/validation-schemas";
+import { Session } from "inspector/promises";
 
 export const authOptions = {
     providers: [
@@ -10,18 +12,14 @@ export const authOptions = {
                 phone: { label: "Email or Phone", type: "text", placeholder: "1231231231", required: true },
                 password: { label: "Password", type: "password", required: true }
             },
-            // TODO: User credentials type from next-aut
             async authorize(credentials: any) {
-                // Do zod validation, OTP validation here
+                const parsedSignInData = signInSchema.safeParse(credentials);
 
-                const { credential, password } = credentials ?? {};
+                if (!parsedSignInData.success) throw new Error('Missing credentials');
 
-                if (!credential || !password) {
-                    // return null
-                    throw new Error('Missing credentials');
-                };
+                const {credential, password} = parsedSignInData.data;
 
-                const isUserExist = await prisma.user.findFirst({
+                const user = await prisma.user.findFirst({
                     where: {
                         OR: [
                             { email: credential },
@@ -30,53 +28,31 @@ export const authOptions = {
                     }
                 });
 
-                // const hashedPassword = await bcrypt.hash(credentials.password, 10);
-
-                if (!isUserExist) {
-                    // return null
-                    throw new Error('No user found with this credential');
+                if (!user) {
+                    throw new Error('User not found');
                 } else {
-                    const isPasswordValid = await bcrypt.compare(password, isUserExist.password);
-                    if (!isPasswordValid) {
-                        // return null
-                        throw new Error('Invalid password');
-                    };
+                    const isPasswordValid = await bcrypt.compare(password, user.password);
+                    
+                    if (!isPasswordValid) throw new Error('Invalid password');
 
                     return {
-                        id: isUserExist.id.toString(),
-                        name: isUserExist.name,
-                        phone: isUserExist.phone,
-                        email: isUserExist.email
+                        id: user.id.toString(),
+                        name: user.name,
+                        phone: user.phone,
+                        email: user.email
                     };
                 }
-
-                // try {
-                //     const user = await prisma.user.create({
-                //         data: {
-                //             phone: credentials.phone,
-                //             password: hashedPassword
-                //         }
-                //     });
-
-                //     return {
-                //         id: user.id.toString(),
-                //         name: user.name,
-                //         email: user.phone
-                //     }
-                // } catch (e) {
-                //     console.error(e);
-                // }
             },
         })
     ],
-    session: {
-        strategy: 'jwt'
+    Session: {
+        strategy: "jwt"
     },
     pages: {
         signIn: '/sign-in'
     },
     callbacks: {
-        async session({ token, session}: any) {
+        async session({ session, token}: any) {
             if (token?.sub) {
                 session.user.id = token.sub;
             }

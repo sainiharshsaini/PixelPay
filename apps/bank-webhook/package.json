@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@repo/validation-schemas": "workspace:*",
     "@repo/db": "workspace:*",
     "esbuild": "^0.25.2",
     "express": "^5.1.0"
