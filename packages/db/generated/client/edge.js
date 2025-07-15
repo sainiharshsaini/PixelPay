@@ -164,7 +164,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\singh\\OneDrive\\Desktop\\Projects\\Monorepos\\Paytm-Monorepo\\packages\\db\\generated\\client",
+      "value": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\Paytm-Monorepo-Final\\packages\\db\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -178,7 +178,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\singh\\OneDrive\\Desktop\\Projects\\Monorepos\\Paytm-Monorepo\\packages\\db\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\Paytm-Monorepo-Final\\packages\\db\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -201,8 +201,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                Int                 @id @default(autoincrement())\n  email             String?             @unique\n  name              String?\n  phone             String              @unique\n  password          String\n  createdAt         DateTime            @default(now())\n  OnRampTransaction OnRampTransaction[]\n  Balance           Balance[]\n}\n\nmodel Merchant {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  name      String?\n  auth_type AuthType\n}\n\nmodel OnRampTransaction {\n  id        Int          @id @default(autoincrement())\n  status    OnRampStatus\n  token     String       @unique\n  provider  String\n  amount    Int\n  startTime DateTime\n  userId    Int\n  user      User         @relation(fields: [userId], references: [id])\n}\n\nmodel Balance {\n  id     Int  @id @default(autoincrement())\n  userId Int  @unique\n  amount Int\n  locked Int\n  user   User @relation(fields: [userId], references: [id])\n}\n\nenum AuthType {\n  Google\n  Github\n}\n\nenum OnRampStatus {\n  Success\n  Failure\n  Processing\n}\n",
-  "inlineSchemaHash": "c2cc9676b4c8f8d07a2fcbcda5c2501f6653aee467010adce71c46debaeb8015",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                Int                 @id @default(autoincrement())\n  email             String?             @unique\n  name              String?\n  phone             String              @unique\n  password          String\n  createdAt         DateTime            @default(now())\n  OnRampTransaction OnRampTransaction[]\n  Balance           Balance[]\n}\n\nmodel Merchant {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  name      String?\n  auth_type AuthType\n}\n\nmodel OnRampTransaction {\n  id        Int          @id @default(autoincrement())\n  status    OnRampStatus\n  token     String       @unique\n  provider  String\n  amount    Int\n  startTime DateTime\n  userId    Int\n  user      User         @relation(fields: [userId], references: [id])\n}\n\nmodel Balance {\n  id     Int  @id @default(autoincrement())\n  userId Int  @unique\n  amount Int\n  locked Int\n  user   User @relation(fields: [userId], references: [id])\n}\n\nenum AuthType {\n  Google\n  Github\n}\n\nenum OnRampStatus {\n  Success\n  Failure\n  Processing\n}\n",
+  "inlineSchemaHash": "09fe0381b722114508ac8551db6755a0a7297c1c893763fa6c21a7e5d776b6d7",
   "copyEngine": true
 }
 config.dirname = '/'
