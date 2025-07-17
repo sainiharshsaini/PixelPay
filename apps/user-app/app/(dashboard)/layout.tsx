@@ -1,4 +1,4 @@
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/main-layout/Sidebar";
 import { JSX, ReactNode } from "react";
 
 export default function DashboardLayout({ children}: {children: ReactNode}): JSX.Element {
