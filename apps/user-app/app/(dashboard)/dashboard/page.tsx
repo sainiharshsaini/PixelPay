@@ -1,5 +1,5 @@
-import WelcomeCard from "../../../components/dashboard-comp/WelcomeCard"
-import { BalanceCard } from "../../../components/dashboard-comp/BalanceCard"
+import WelcomeCard from "./_components/WelcomeCard"
+import { BalanceCard } from "./_components/BalanceCard"
 
 const Dashboard = () => {
     return (

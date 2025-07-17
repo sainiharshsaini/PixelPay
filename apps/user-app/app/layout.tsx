@@ -3,7 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "../providers";
 import { Toaster } from "react-hot-toast";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,8 +16,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "User App",
-  description: "Payment app using Nextjs",
+  title: "PixelPay",
+  description: "Payment app using Turborepo, Next.js",
 };
 
 export default function RootLayout({
@@ -28,9 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} mx-auto  lg:w-4/5 border border-slate-200`}>
         <Providers>
-          <Navbar/>
-          <Toaster/>
+          <Header />
+          <Toaster />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

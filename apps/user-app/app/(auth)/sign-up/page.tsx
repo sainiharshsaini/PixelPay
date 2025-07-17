@@ -1,11 +1,7 @@
-import SignUpForm from "../../../components/auth-form/SignUpForm"
+import SignUpForm from "../_components/SignUpForm"
 
 const signUpPage = () => {
-    return (
-        <div className="bg-slate-200 rounded p-8 flex justify-center items-center">
-            <SignUpForm/>
-        </div>
-    )
+    return <SignUpForm />
 }
 
 export default signUpPage

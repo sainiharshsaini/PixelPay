@@ -2,11 +2,11 @@
 
 import { signIn, signOut, useSession } from "next-auth/react"
 
-const Navbar = () => {
+const Header = () => {
     const session = useSession();
 
     return (
-        <div>
+        <div className="sticky top-0 bg-white">
             <div className="flex items-center justify-between px-8 h-[60px] border-b border-slate-300">
                 <div className="text-2xl font-semibold font-serif  text-blue-800">
                     Paytm
@@ -19,4 +19,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Header

@@ -1,8 +1,6 @@
 import { z } from "zod";
 
-export default z;
-
-export const signUpSchema = z.object({
+export const SignUpSchema = z.object({
     name: z.string().min(1, 'Name is required').max(50),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
     phone: z.string().min(1, 'Phone no. is required').min(10, { message: 'Must be a valid mobile number' }).max(14, { message: 'Must be a valid mobile number' }),
@@ -17,7 +15,7 @@ export const signUpSchema = z.object({
         message: 'Password do not match',
     });
 
-export const signInSchema = z.object({
+export const SignInSchema = z.object({
     credential: z.string().min(5, 'Email or phone is required')
         .refine(
             (val) => /\S+@\S+\.\S+/.test(val) || /^\d{10,15}$/.test(val),
@@ -31,8 +29,13 @@ export const signInSchema = z.object({
         .min(6, 'Password must be at least 6 characters'),
 })
 
-export const paymentSchema = z.object({
+export const PaymentSchema = z.object({
     token: z.string(),
     user_identifier: z.string(),
     amount: z.string().regex(/^\d+$/, "Amount must be numeric")
 })
+
+
+export type SignInSchemaType = z.infer<typeof SignInSchema>
+export type SignUpSchemaType = z.infer<typeof SignUpSchema>
+export type PaymentSchemaType = z.infer<typeof PaymentSchema>

@@ -1,7 +1,7 @@
 import { prisma } from "@repo/db";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import { signInSchema } from "@repo/validation-schemas";
+import { SignInSchema } from "@repo/validation-schemas";
 import { Session } from "inspector/promises";
 
 export const authOptions = {
@@ -13,7 +13,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password", required: true }
             },
             async authorize(credentials: any) {
-                const parsedSignInData = signInSchema.safeParse(credentials);
+                const parsedSignInData = SignInSchema.safeParse(credentials);
 
                 if (!parsedSignInData.success) throw new Error('Missing credentials');
 
