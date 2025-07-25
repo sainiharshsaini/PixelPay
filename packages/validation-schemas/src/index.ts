@@ -31,11 +31,16 @@ export const SignInSchema = z.object({
 
 export const PaymentSchema = z.object({
     token: z.string(),
-    user_identifier: z.string(),
+    userId: z.string(),
     amount: z.string().regex(/^\d+$/, "Amount must be numeric")
 })
 
+export const OnRampTxnSchema = z.object({
+    provider: z.string().min(1, "Provider is required"),
+    amount: z.number({ invalid_type_error: "Amount must be a number" }).positive("Amount must be greater than zero")
+})
 
 export type SignInSchemaType = z.infer<typeof SignInSchema>
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>
 export type PaymentSchemaType = z.infer<typeof PaymentSchema>
+export type OnRampTxnType = z.infer<typeof OnRampTxnSchema>

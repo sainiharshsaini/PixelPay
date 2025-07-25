@@ -1,38 +1,65 @@
-"use client"
+"use client";
 
 import { useState } from "react";
-import { p2pTransfer } from "../lib/actions/p2pTransfer";
+import { Button } from "@repo/ui/button";
+import { Card } from "./ui/card";
+import { Center } from "@repo/ui/center";
+import { TextInput } from "@repo/ui/textinput";
+import { p2pTransfer } from "@/lib/actions/p2pTransfer";
 
 export function SendCard() {
-    const [number, setNumber] = useState("");
-    const [amount, setAmount] = useState("");
+    const [number, setNumber] = useState<string>("");
+    const [amount, setAmount] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    return <div className="h-[90vh]">
-        <div className="flex justify-center flex-col h-full">
-            <div className="flex justify-center">
-                <div className="border p-6 bg-white rounded-xl bg-[#ededed]">
-                    <h1 className="text-xl border-b pb-2">
-                        Send
-                    </h1>
-                    <p>
-                        <div className="min-w-72 pt-2">
-                            <div className="pt-2">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Number</label>
-                                <input onChange={(e) => setNumber(e.target.value)} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Number" />
-                            </div>
-                            <div className="pt-2">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">Amount</label>
-                                <input onChange={(e) => setAmount(e.target.value)} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Amount" />
-                            </div>
-                            <div className="pt-4 flex justify-center">
-                                <button onClick={async () => await p2pTransfer(number, Number(amount) * 100)}
-                                    className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                                >Send</button>
-                            </div>
+    const handleSend = async () => {
+        const trimmedNumber = number.trim();
+        const numericAmount = Number(amount);
+
+        if (!trimmedNumber || isNaN(numericAmount) || numericAmount <= 0) {
+            alert("Please enter a valid phone number and amount.");
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+            await p2pTransfer(trimmedNumber, numericAmount * 100); // Assuming amount is in INR and server expects paisa
+            alert("Transfer successful");
+            setNumber("");
+            setAmount("");
+        } catch (err) {
+            console.error("Transfer failed", err);
+            alert("Transfer failed. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <div className="h-[90vh]">
+            <Center>
+                <Card title="Send">
+                    <div className="min-w-72 pt-2 space-y-4">
+                        <TextInput
+                            placeholder="Number"
+                            label="Number"
+                            value={number}
+                            onChange={(value) => setNumber(value)}
+                        />
+                        <TextInput
+                            placeholder="Amount"
+                            label="Amount"
+                            value={amount}
+                            onChange={(value) => setAmount(value)}
+                        />
+                        <div className="pt-4 flex justify-center">
+                            <Button onClick={handleSend} disabled={isLoading}>
+                                {isLoading ? "Sending..." : "Send"}
+                            </Button>
                         </div>
-                    </p>
-                </div>
-            </div>
+                    </div>
+                </Card>
+            </Center>
         </div>
-    </div>
+    )
 }

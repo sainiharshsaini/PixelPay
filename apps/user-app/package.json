@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-select": "^2.2.5",
     "@repo/db": "workspace:*",
     "@repo/recoil-store": "workspace:*",
     "@repo/tailwind-config": "workspace:*",
