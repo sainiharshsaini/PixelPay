@@ -1,6 +1,5 @@
 import { SendCard } from "../../../components/SendCard"
 
-
 const P2pTransfer = () => {
     return (
         <div className="w-full">

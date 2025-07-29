@@ -4,9 +4,9 @@ import { authOptions } from "../../../lib/authOptions";
 
 export const GET = async () => {
     const session = await getServerSession(authOptions);
-    console.log(session.user.id);
+    console.log(session?.user?.email);
     
-    if (session.user) {
+    if (session?.user) {
         return NextResponse.json({
             user: session.user
         })

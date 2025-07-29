@@ -3,11 +3,11 @@
 import React from 'react'
 import { Card } from './ui/card';
 
-type TransactionStatus = "success" | "pending" | "failed"; // Can extend as needed
+type TransactionStatus = "success" | "pending" | "failed" | string;
 
 export interface Transaction {
   time: Date;
-  amount: number; // in paise (INR * 100)
+  amount: number;
   status: TransactionStatus;
   provider: string;
 }
