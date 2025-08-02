@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.12.0
- * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+ * Prisma Client JS version: 6.13.0
+ * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
  */
 Prisma.prismaVersion = {
-  client: "6.12.0",
-  engine: "8047c96bbd92db98a2abc7c9323ce77c02c89dbc"
+  client: "6.13.0",
+  engine: "361e86d0ea4987e9f53a565309b3eed797a6bcbd"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -124,9 +124,8 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
-  phone: 'phone',
-  password: 'password',
-  createdAt: 'createdAt'
+  number: 'number',
+  password: 'password'
 };
 
 exports.Prisma.MerchantScalarFieldEnum = {
@@ -134,6 +133,14 @@ exports.Prisma.MerchantScalarFieldEnum = {
   email: 'email',
   name: 'name',
   auth_type: 'auth_type'
+};
+
+exports.Prisma.P2pTransferScalarFieldEnum = {
+  id: 'id',
+  amount: 'amount',
+  timestamp: 'timestamp',
+  fromUserId: 'fromUserId',
+  toUserId: 'toUserId'
 };
 
 exports.Prisma.OnRampTransactionScalarFieldEnum = {
@@ -181,6 +188,7 @@ exports.OnRampStatus = exports.$Enums.OnRampStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Merchant: 'Merchant',
+  p2pTransfer: 'p2pTransfer',
   OnRampTransaction: 'OnRampTransaction',
   Balance: 'Balance'
 };

@@ -5,17 +5,17 @@ import bcrypt from 'bcrypt'
 interface RegisterRequestBody {
     name: string;
     email: string;
-    phone: string;
+    number: string;
     password?: string;
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
     try {
         const body: RegisterRequestBody = await req.json();
-        const { name, email, phone, password } = body;
+        const { name, email, number, password } = body;
 
-        if (!name || !email || !phone || !password) {
-            console.error("Missing required fields for registration:", { name: !!name, email: !!email, phone: !!phone, password: !!password });
+        if (!name || !email || !number || !password) {
+            console.error("Missing required fields for registration:", { name: !!name, email: !!email, number: !!number, password: !!password });
             return NextResponse.json({ message: 'All fields (name, email, phone, password) are required.' }, { status: 400 });
         }
 
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             data: {
                 name,
                 email,
-                phone,
+                number,
                 password: hashedPassword
             }
         })

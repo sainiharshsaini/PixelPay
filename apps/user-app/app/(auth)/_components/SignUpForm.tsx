@@ -5,7 +5,6 @@ import { SignUpSchema, SignUpSchemaType } from "@repo/validation-schemas"
 import axios from "axios";
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast";
-import Link from "next/link";
 import InputField from "./InputField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,7 +18,7 @@ const formFields: {
 }[] = [
     { name: "name", label: "Full Name", type: "text", placeholder: "Enter your full name", autoComplete: "name" },
     { name: "email", label: "Email Address", type: "email", placeholder: "Enter your email", autoComplete: "email" },
-    { name: "phone", label: "Phone Number", type: "tel", placeholder: "Enter your phone number", autoComplete: "tel" },
+    { name: "number", label: "Phone Number", type: "tel", placeholder: "Enter your phone number", autoComplete: "tel" },
     { name: "password", label: "Password", type: "password", placeholder: "Enter a strong password", autoComplete: "new-password" },
     { name: "confirmPassword", label: "Confirm Password", type: "password", placeholder: "Re-enter your password", autoComplete: "new-password" },
   ];
@@ -27,7 +26,7 @@ const formFields: {
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const router = useRouter();
+  // const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -70,12 +69,6 @@ const SignUpForm = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        {/* <InputField type="text" label="Name" name="name" placeholder="Enter your name" register={register} error={errors.name} />
-        <InputField type="email" label="Email" name="email" placeholder="Enter your email" register={register} error={errors.email} />
-        <InputField type="tel" label="Phone" name="phone" placeholder="Enter your phone number" register={register} error={errors.phone} />
-        <InputField type="password" label="Password" name="password" placeholder="Enter your password" register={register} error={errors.password} />
-        <InputField type="password" label="Confirm Password" name="confirmPassword" placeholder="Re-enter your password" register={register} error={errors.confirmPassword} /> */}
-
         {formFields.map((field) => (
           <InputField
             key={field.name}

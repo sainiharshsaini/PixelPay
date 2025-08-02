@@ -1,4 +1,3 @@
-
 import { prisma } from "@repo/db";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
@@ -15,7 +14,7 @@ interface CustomUser {
     id: string;
     name?: string | null;
     email?: string | null;
-    phone?: string | null; // Custom property
+    number?: string | null; // Custom property
 }
 
 /**
@@ -26,7 +25,7 @@ interface CustomJWT extends JWT {
     id: string;
     name?: string | null;
     email?: string | null;
-    phone?: string | null; // Custom property
+    number?: string | null; // Custom property
 }
 
 /**
@@ -38,7 +37,7 @@ interface CustomSession extends Session {
         id: string;
         name?: string | null;
         email?: string | null;
-        phone?: string | null; // Custom property
+        number?: string | null; // Custom property
     };
 }
 
@@ -65,32 +64,32 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                const user = await prisma.user.findFirst({
+                const existingUser = await prisma.user.findFirst({
                     where: {
                         OR: [
                             { email: credential },
-                            { phone: credential }
+                            { number: credential }
                         ]
                     }
                 });
 
-                if (!user || !user.password) {
+                if (!existingUser || !existingUser.password) {
                     console.error("User not found or password not set for:", credential);
                     return null;
                 }
 
-                const isPasswordValid = await bcrypt.compare(password, user.password);
+                const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 
                 if (!isPasswordValid) {
-                    console.error("Invalid password for user ID:", user.id);
+                    console.error("Invalid password for user ID:", existingUser.id);
                     return null;
                 }
 
                 return {
-                    id: user.id.toString(),
-                    name: user.name,
-                    phone: user.phone,
-                    email: user.email
+                    id: existingUser.id.toString(),
+                    name: existingUser.name,
+                    number: existingUser.number,
+                    email: existingUser.email
                 };
             },
         })
@@ -105,18 +104,18 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }: { token: JWT; user?: CustomUser }): Promise<JWT> {
             if (user) {
                 (token as CustomJWT).id = user.id;
-                (token as CustomJWT).name = user.name;
-                (token as CustomJWT).email = user.email;
-                (token as CustomJWT).phone = user.phone;
+                // (token as CustomJWT).name = user.name;
+                // (token as CustomJWT).email = user.email;
+                // (token as CustomJWT).phone = user.phone;
             }
             return token;
         },
         async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
             if (token && session.user) {
-                (session as CustomSession).user!.id = (token as CustomJWT).id as string;
-                (session as CustomSession).user!.name = (token as CustomJWT).name;
-                (session as CustomSession).user!.email = (token as CustomJWT).email;
-                (session as CustomSession).user!.phone = (token as CustomJWT).phone;
+                (session as CustomSession).user!.id = (token as CustomJWT).sub as string;
+                // (session as CustomSession).user!.name = (token as CustomJWT).name;
+                // (session as CustomSession).user!.email = (token as CustomJWT).email;
+                // (session as CustomSession).user!.phone = (token as CustomJWT).phone;
             }
             return session;
         }

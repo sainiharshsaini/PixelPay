@@ -9,7 +9,7 @@ type InputFieldProps = {
     error?: FieldError;
 }
 
-const InputField = ({ label, name, type = "text", placeholder, register, error, className, ...rest }: InputFieldProps) => {
+const InputField = ({ label, name, type = "text", placeholder, register, error, ...rest }: InputFieldProps) => {
     return (
         <div className="mb-4">
             <label htmlFor={name} className="block mb-1 font-medium">
@@ -21,7 +21,7 @@ const InputField = ({ label, name, type = "text", placeholder, register, error, 
                 {...register(name)}
                 {...rest}
                 placeholder={placeholder}
-                className={`w-full px-4 py-2 border rounded outline-none ${error ? "border-red-500" : "border-gray-300"} ${className || ""}`}
+                className={`w-full px-4 py-2 border rounded outline-none ${error ? "border-red-500" : "border-gray-300"}`}
             />
             {error && (
                 <p className="text-red-500 text-sm mt-1" role="alert">

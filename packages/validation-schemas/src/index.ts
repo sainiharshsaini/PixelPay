@@ -3,7 +3,7 @@ import { z } from "zod";
 export const SignUpSchema = z.object({
     name: z.string().min(1, 'Name is required').max(50),
     email: z.string().min(1, 'Email is required').email('Invalid email'),
-    phone: z.string().min(1, 'Phone no. is required').min(10, { message: 'Must be a valid mobile number' }).max(14, { message: 'Must be a valid mobile number' }),
+    number: z.string().min(1, 'Phone no. is required').min(10, { message: 'Must be a valid mobile number' }).max(14, { message: 'Must be a valid mobile number' }),
     password: z
         .string()
         .min(1, 'Password is required')
@@ -37,7 +37,7 @@ export const PaymentSchema = z.object({
 
 export const OnRampTxnSchema = z.object({
     provider: z.string().min(1, "Provider is required"),
-    amount: z.number({ invalid_type_error: "Amount must be a number" }).positive("Amount must be greater than zero")
+    amount: z.number().positive("Amount must be greater than zero")
 })
 
 export type SignInSchemaType = z.infer<typeof SignInSchema>

@@ -46,7 +46,7 @@ const SignInForm = () => {
         toast.success('Signed in successfully!', { id: toastId });
         window.location.href = '/dashboard';
       } else {
-        toast.error(response.error || "An unknown error occurred.", { id: toastId });
+        toast.error(response?.error || "An unknown error occurred.", { id: toastId });
       }
     } catch (error) {
       console.error("Sign-in error:", error);
