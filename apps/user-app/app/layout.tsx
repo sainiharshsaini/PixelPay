@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} mx-auto  lg:w-4/5 border border-slate-200`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Providers>
           <Header />
           <Toaster />

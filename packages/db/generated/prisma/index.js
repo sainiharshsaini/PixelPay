@@ -176,7 +176,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\Pixel-Pay\\packages\\db\\generated\\prisma",
+      "value": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\PixelPay\\packages\\db\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -187,14 +187,18 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "windows"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\Pixel-Pay\\packages\\db\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\singh\\OneDrive\\Desktop\\Harsh-Code\\Monorepo\\PixelPay\\packages\\db\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -204,6 +208,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -212,8 +217,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                Int                 @id @default(autoincrement())\n  email             String?             @unique\n  name              String?\n  number            String              @unique\n  password          String\n  OnRampTransaction OnRampTransaction[]\n  Balance           Balance[]\n  sentTransfers     p2pTransfer[]       @relation(name: \"FromUserRelation\")\n  receivedTransfers p2pTransfer[]       @relation(name: \"ToUserRelation\")\n}\n\nmodel Merchant {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  name      String?\n  auth_type AuthType\n}\n\nmodel p2pTransfer {\n  id         Int      @id @default(autoincrement())\n  amount     Int\n  timestamp  DateTime\n  fromUserId Int\n  fromUser   User     @relation(name: \"FromUserRelation\", fields: [fromUserId], references: [id])\n  toUserId   Int\n  toUser     User     @relation(name: \"ToUserRelation\", fields: [toUserId], references: [id])\n}\n\nmodel OnRampTransaction {\n  id        Int          @id @default(autoincrement())\n  status    OnRampStatus\n  token     String       @unique\n  provider  String\n  amount    Int\n  startTime DateTime\n  userId    Int\n  user      User         @relation(fields: [userId], references: [id])\n}\n\nmodel Balance {\n  id     Int  @id @default(autoincrement())\n  userId Int  @unique\n  amount Int\n  locked Int\n  user   User @relation(fields: [userId], references: [id])\n}\n\nenum AuthType {\n  Google\n  Github\n}\n\nenum OnRampStatus {\n  Success\n  Failure\n  Processing\n}\n",
-  "inlineSchemaHash": "d893d0292095e38b385dc7b0576405843f56138cc5a3e10018df8b3837576b6d",
+  "inlineSchema": "generator client {\n  provider      = \"prisma-client-js\"\n  output        = \"../generated/prisma\"\n  binaryTargets = [\"native\", \"windows\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                Int                 @id @default(autoincrement())\n  email             String?             @unique\n  name              String?\n  number            String              @unique\n  password          String\n  OnRampTransaction OnRampTransaction[]\n  Balance           Balance[]\n  sentTransfers     p2pTransfer[]       @relation(name: \"FromUserRelation\")\n  receivedTransfers p2pTransfer[]       @relation(name: \"ToUserRelation\")\n}\n\nmodel Merchant {\n  id        Int      @id @default(autoincrement())\n  email     String   @unique\n  name      String?\n  auth_type AuthType\n}\n\nmodel p2pTransfer {\n  id         Int      @id @default(autoincrement())\n  amount     Int\n  timestamp  DateTime\n  fromUserId Int\n  fromUser   User     @relation(name: \"FromUserRelation\", fields: [fromUserId], references: [id])\n  toUserId   Int\n  toUser     User     @relation(name: \"ToUserRelation\", fields: [toUserId], references: [id])\n}\n\nmodel OnRampTransaction {\n  id        Int          @id @default(autoincrement())\n  status    OnRampStatus\n  token     String       @unique\n  provider  String\n  amount    Int\n  startTime DateTime\n  userId    Int\n  user      User         @relation(fields: [userId], references: [id])\n}\n\nmodel Balance {\n  id     Int  @id @default(autoincrement())\n  userId Int  @unique\n  amount Int\n  locked Int\n  user   User @relation(fields: [userId], references: [id])\n}\n\nenum AuthType {\n  Google\n  Github\n}\n\nenum OnRampStatus {\n  Success\n  Failure\n  Processing\n}\n",
+  "inlineSchemaHash": "a26dfacf9a4fc3678bd15e0caf889fe675576608a30071764f110c561c6fe088",
   "copyEngine": true
 }
 

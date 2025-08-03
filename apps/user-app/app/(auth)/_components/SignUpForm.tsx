@@ -6,7 +6,6 @@ import axios from "axios";
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast";
 import InputField from "./InputField";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const formFields: {
@@ -26,7 +25,6 @@ const formFields: {
 const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -40,9 +38,8 @@ const SignUpForm = () => {
     const toastId = toast.loading('Creating your account...');
 
     try {
-      await axios.post('/api/sign-up', data)
+      await axios.post('/api/register', data)
       toast.success('User registered successfully!', { id: toastId });
-      // router.push('/sign-in');
       window.location.href = '/sign-in'
     } catch (error: any) {
       let errorMessage = 'An unexpected error occurred. Please try again.';

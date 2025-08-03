@@ -2,6 +2,7 @@
 
 import { FiHome, FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
     const router = useRouter();
@@ -45,22 +46,22 @@ const NotFound = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <button
+                    <Button
                         onClick={handleGoHome}
                         className="px-4 py-3 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 text-white font-bold text-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 ease-out focus-visible:ring-4 focus-visible:ring-orange-400 focus-visible:ring-opacity-70 flex items-center justify-center gap-2 w-full sm:w-auto"
                     >
                         <FiHome className="h-5 w-5 mr-2" />
                         Go to Homepage
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
                         onClick={handleGoBack}
                         variant="outline"
                         className="px-4 py-3 rounded-full border-2 border-gray-300 text-gray-700 font-semibold text-lg hover:bg-gray-100 hover:text-gray-800 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-background flex items-center justify-center gap-2 w-full sm:w-auto"
                     >
                         <FiArrowLeft className="h-5 w-5 mr-2" />
                         Go Back
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

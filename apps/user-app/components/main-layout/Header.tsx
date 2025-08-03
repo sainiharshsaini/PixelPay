@@ -2,6 +2,9 @@
 
 import { signIn, signOut, useSession } from "next-auth/react"
 import { Session } from "next-auth";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface CustomSessionUser {
     id: string;
@@ -15,27 +18,78 @@ interface CustomSession extends Session {
 }
 
 const Header = () => {
-    const { data: session, status } = useSession() as { data: CustomSession | null, status: "loading" | "authenticated" | "unauthenticated" };
+    const router = useRouter()
+    const {
+        data: session,
+        status
+    } = useSession() as {
+        data: CustomSession | null,
+        status: "loading" | "authenticated" | "unauthenticated"
+    };
+
+    const isAuthenticated = !!session?.user;
 
     return (
-        <div className="sticky top-0 bg-white z-10">
-            <div className="flex items-center justify-between px-4 sm:px-8 h-[60px] border-b border-slate-300 shadow-sm">
-                
-                <div className="text-2xl font-semibold font-serif text-blue-800">
-                    PixelPay
+        <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+                {/* Logo */}
+                <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold shadow">
+                        <span className="text-white font-bold text-sm">PP</span>
+                    </div>
+                    <Link href="/" className="text-xl font-bold text-gray-800">
+                        PixelPay
+                    </Link>
                 </div>
 
-                <div className="text-white py-2 px-6 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors duration-200 hidden md:block cursor-pointer">
-                    <button
-                        onClick={() => session?.user ? signOut() : signIn()}
-                        disabled={status === "loading"}
-                        className="focus:outline-none cursor-pointer"
-                    >
-                        {status === "loading" ? "Loading..." : (session?.user ? "Logout" : "Login")}
-                    </button>
+                {/* Navigation Links (visible only when logged in) */}
+                {isAuthenticated && (
+                    <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
+                        <Link href="/" className="hover:text-black transition">
+                            Home
+                        </Link>
+                        <Link href="/dashboard" className="hover:text-black transition">
+                            Dashboard
+                        </Link>
+                    </nav>
+                )}
+
+                {/* Right Side Actions */}
+                <div className="flex items-center gap-4">
+                    {status === "loading" ? (
+                        <span className="text-gray-500 text-sm">
+                            Checking...
+                        </span>
+                    ) : isAuthenticated ? (
+                        <>
+                            <span className="hidden sm:block text-sm text-gray-700">
+                                Hi, {session.user?.name || "User"}
+                            </span>
+                            <Button
+                                variant="ghost"
+                                onClick={() => signOut()}
+                                className="text-sm"
+                            >
+                                Logout
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                variant="ghost"
+                                onClick={() => signIn()}
+                                className="text-sm"
+                            >
+                                Login
+                            </Button>
+                            <Button variant="default" onClick={() => router.push("/sign-up")}>
+                                Sign Up
+                            </Button>
+                        </>
+                    )}
                 </div>
             </div>
-        </div>
+        </header>
     )
 }
 
