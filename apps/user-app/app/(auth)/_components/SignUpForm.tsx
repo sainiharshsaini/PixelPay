@@ -55,9 +55,10 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-white rounded-lg shadow-md">
+    <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-white/80 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 relative">
+      <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 rounded-full opacity-70" />
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-800">
+        <h1 className="text-3xl font-extrabold text-gray-800">
           Create an Account
         </h1>
         <p className="mt-2 text-gray-600">
@@ -78,14 +79,12 @@ const SignUpForm = () => {
             disabled={isSubmitting}
             autoComplete={field.autoComplete}
           />
-        ))
-
-        }
+        ))}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full px-4 py-2 font-semibold text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg shadow hover:from-purple-600 hover:to-pink-500 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300"
         >
           {isSubmitting ? 'Signing Up...' : 'Sign Up'}
         </button>
@@ -101,7 +100,7 @@ const SignUpForm = () => {
 
       <p className="mt-2 text-sm text-center text-gray-600">
         Already have an account?{' '}
-        <a href="/sign-in" className="font-medium text-blue-600 hover:underline">
+        <a href="/sign-in" className="font-medium text-purple-600 hover:underline transition-colors">
           Sign In
         </a>
       </p>

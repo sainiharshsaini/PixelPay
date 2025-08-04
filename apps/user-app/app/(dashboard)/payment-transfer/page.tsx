@@ -8,7 +8,7 @@ const PaymentTransfer = async () => {
   const transactions = await getOnRampTxns();
 
   return (
-    <div className='w-screen p-4'>
+    <div className='w-full p-4'>
       <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold">
         Transfer
       </div>

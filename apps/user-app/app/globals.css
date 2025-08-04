@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -74,6 +74,21 @@
   --sidebar-ring: oklch(0.708 0 0);
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+
+
+  /* custom */
+
+   --color-primary: #6366f1;
+  --color-success: #22c55e;
+  --color-warning: #facc15;
+  --color-info: #0ea5e9;
+
+  --gradient-aurora: linear-gradient(135deg, #a78bfa, #60a5fa);
+  --gradient-primary: linear-gradient(90deg, #4f46e5, #3b82f6);
+  --gradient-sunset: linear-gradient(135deg, #fb7185, #fcd34d);
+  --gradient-card: linear-gradient(to right, #f472b6, #a78bfa);
+  --gradient-hero: radial-gradient(circle at center, #4f46e5, transparent 70%);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
 }
 
 .dark {
@@ -117,4 +132,55 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+/* 🎨 Background Gradient Classes */
+.bg-gradient-aurora {
+  background-image: var(--gradient-aurora);
+}
+
+.bg-gradient-primary {
+  background-image: var(--gradient-primary);
+}
+
+.bg-gradient-sunset {
+  background-image: var(--gradient-sunset);
+}
+
+.bg-gradient-card {
+  background-image: var(--gradient-card);
+}
+
+.bg-gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
+.bg-gradient-glass {
+  background-image: var(--gradient-glass);
+}
+
+/* 🌟 Shadows */
+.shadow-elegant {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* 🎞️ Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
 }

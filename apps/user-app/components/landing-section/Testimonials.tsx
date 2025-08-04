@@ -24,7 +24,7 @@ const testimonials = [
     }
 ];
 
-const Testimonials = () => {
+const Testimonials = React.memo(() => {
     return (
         <section className="py-32 relative overflow-hidden bg-background">
             {/* Soft Gradient Background */}
@@ -34,7 +34,7 @@ const Testimonials = () => {
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
                 <div className="text-center mb-20">
-                    <Badge className="mb-6 bg-gradient-glass backdrop-blur-md border-white/20">
+                    <Badge className="mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 backdrop-blur-md border-white/20">
                         💬 Customer Stories
                     </Badge>
                     <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6 bg-gradient-to-br from-purple-600 to-pink-500 bg-clip-text text-transparent">
@@ -49,16 +49,16 @@ const Testimonials = () => {
                 <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
                     {testimonials.map((testimonial, index) => (
                         <Card
-                            key={testimonial.name}
-                            className={`group p-8 border-none bg-gradient-glass backdrop-blur-xl hover:shadow-xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden animate-fade-in`}
+                            key={testimonial.name + testimonial.role}
+                            className={`group p-8 border-none bg-gradient-glass backdrop-blur-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 relative overflow-hidden animate-fade-in`}
                             style={{
-                                animationDelay: `${index * 200}ms`,
+                                animationDelay: `${index * 180}ms`,
                                 animationDuration: "600ms",
                                 animationFillMode: "both",
                             }}
                         >
                             {/* Background overlay on hover */}
-                            <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-400 opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
 
                             <div className="relative z-10">
                                 {/* Star rating */}
@@ -67,7 +67,8 @@ const Testimonials = () => {
                                         <Star
                                             key={i}
                                             className="h-5 w-5 fill-yellow-400 text-yellow-400 animate-pop"
-                                            style={{ animationDelay: `${i * 100}ms` }}
+                                            style={{ animationDelay: `${i * 80}ms` }}
+                                            aria-label="Star"
                                         />
                                     ))}
                                 </div>
@@ -79,8 +80,11 @@ const Testimonials = () => {
 
                                 {/* Author info */}
                                 <div className="flex items-center space-x-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md">
-                                        {testimonial.name.charAt(0)}
+                                    <div
+                                        className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md"
+                                        aria-label={`Avatar for ${testimonial.name}`}
+                                    >
+                                        {testimonial.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                                     </div>
                                     <div>
                                         <div className="font-semibold text-foreground text-lg">
@@ -98,6 +102,6 @@ const Testimonials = () => {
             </div>
         </section>
     )
-}
+})
 
 export default Testimonials

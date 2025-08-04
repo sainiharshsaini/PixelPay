@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Badge } from '../ui/badge'
 
-const CallToAction = () => {
+const CallToAction = React.memo(() => {
     return (
         <section className="relative overflow-hidden py-28 sm:py-32">
             {/* Decorative Blurs */}
@@ -13,16 +13,6 @@ const CallToAction = () => {
                 <div className="absolute -top-20 -left-20 w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 blur-[120px] opacity-30 rounded-full" />
                 <div className="absolute bottom-[-60px] right-[-60px] w-[400px] h-[400px] bg-gradient-to-br from-blue-400 to-indigo-500 blur-[120px] opacity-20 rounded-full" />
             </div>
-
-            {/* Lottie Animation
-            <div className="relative z-10 flex justify-center mb-12">
-                <Player
-                    autoplay
-                    loop
-                    src={animationData}
-                    style={{ height: "300px", width: "300px" }}
-                />
-            </div> */}
 
             {/* CTA Content */}
             <div className="container mx-auto px-4 text-center relative z-10">
@@ -41,23 +31,14 @@ const CallToAction = () => {
                 <div className="flex flex-col sm:flex-row justify-center gap-5 mb-8">
                     <Button
                         size="lg"
-                        className="h-auto animate-bounce px-10 py-4 text-lg font-semibold bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:shadow-xl hover:scale-105 transition-transform"
+                        className="h-auto animate-bounce px-10 py-4 text-lg font-semibold bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:shadow-2xl hover:scale-105 transition-transform"
                         asChild
-
                     >
                         <Link href="/dashboard">
                             Start Free Today
                             <ArrowRight className="ml-2 h-5 w-5" />
                         </Link>
                     </Button>
-
-                    {/* <Button
-                        size="lg"
-                        variant="outline"
-                        className="h-auto px-8 py-4 text-lg font-medium border border-gray-300 backdrop-blur-sm hover:bg-white/20 transition"
-                    >
-                        Contact Sales
-                    </Button> */}
                 </div>
 
                 <p className="text-sm text-gray-500">
@@ -66,6 +47,6 @@ const CallToAction = () => {
             </div>
         </section>
     )
-}
+})
 
 export default CallToAction;
