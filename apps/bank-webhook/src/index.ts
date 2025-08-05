@@ -7,7 +7,6 @@ dotenv.config();
 const app = express();
 app.use(express.json())
 
-//@ts-ignore
 app.post("/hdfcWebhook", async (req: Request, res: Response) => {
 
     // if (req.headers["x-bank-secret"] !== process.env.HDFC_WEBHOOK_SECRET) {
@@ -15,12 +14,14 @@ app.post("/hdfcWebhook", async (req: Request, res: Response) => {
     // }
     //TODO: HDFC bank should ideally send us a secret so we know this is sent by them
 
-
     const parsedData = PaymentSchema.safeParse(req.body);
 
     if (!parsedData.success) {
         console.error("Invalid webhook data received:", parsedData.error.format());
-        return res.status(400).json({ error: "Invalid data provided", details: parsedData.error.format() });
+        return res.status(400).json({
+            error: "Invalid data provided",
+            details: parsedData.error.format()
+        });
     }
 
     const { token, userId, amount } = parsedData.data;
@@ -30,7 +31,6 @@ app.post("/hdfcWebhook", async (req: Request, res: Response) => {
             prisma.balance.updateMany({
                 where: { userId: Number(userId) },
                 data: {
-                    // You can also get this from your DB
                     amount: { increment: Number(amount) }
                 }
             }),
@@ -44,7 +44,7 @@ app.post("/hdfcWebhook", async (req: Request, res: Response) => {
         res.json({ message: "Webhook processed successfully" });
     } catch (error) {
         console.error("Webhook processing error:", error);
-        res.status(500).json({ message: "Failed to process webhook due to an internal server error." });
+        res.status(500).json({ error: "Failed to process webhook due to an internal server error." });
     }
 
 })

@@ -18,7 +18,7 @@ const Sidebar = () => {
                 border-r border-gray-200 shadow-lg z-40
                 rounded-tr-3xl rounded-br-3xl
                 py-10 px-3
-                ">
+            ">
                 <div className="flex flex-col gap-2 mt-10">
                     {sidebarLinks.map(link => (
                         <SidebarItem
@@ -38,7 +38,7 @@ const Sidebar = () => {
                 flex flex-row justify-around items-center h-16
                 rounded-t-2xl
                 px-2
-                ">
+            ">
                 {sidebarLinks.map(link => (
                     <SidebarItem
                         key={link.href}

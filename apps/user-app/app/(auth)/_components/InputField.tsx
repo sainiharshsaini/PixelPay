@@ -1,3 +1,4 @@
+import { Input } from "@/components/ui/input";
 import { FieldError, UseFormRegister } from "react-hook-form";
 
 type InputFieldProps = {
@@ -15,7 +16,7 @@ const InputField = ({ label, name, type = "text", placeholder, register, error, 
             <label htmlFor={name} className="block mb-1 font-medium text-gray-800">
                 {label}
             </label>
-            <input
+            <Input
                 id={name}
                 type={type}
                 {...register(name)}

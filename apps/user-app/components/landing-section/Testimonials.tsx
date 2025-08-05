@@ -5,19 +5,19 @@ import { Star } from 'lucide-react';
 
 const testimonials = [
     {
-        name: "Sarah Johnson",
+        name: "Lucky Gupta",
         role: "Small Business Owner",
-        content: "BloomPay has revolutionized how I handle international payments. Fast, secure, and reliable.",
+        content: "PixelPay has revolutionized how I handle international payments. Fast, secure, and reliable.",
         rating: 5
     },
     {
-        name: "Michael Chen",
+        name: "Ravi Sharma",
         role: "Freelancer",
         content: "The best payment platform I've used. Low fees and instant transfers make it perfect for my business.",
         rating: 5
     },
     {
-        name: "Emma Davis",
+        name: "Harsh Choudhary",
         role: "Online Retailer",
         content: "Customer payments are processed instantly. My cash flow has never been better.",
         rating: 5

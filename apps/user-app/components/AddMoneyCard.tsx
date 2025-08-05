@@ -48,7 +48,7 @@ export const AddMoneyCard = () => {
             return;
         }
 
-        if (provider !== "HDFC Bank" || "Axis Bank") {
+        if (!provider) {
             toast.error("Select a valid provider");
             return;
         }
