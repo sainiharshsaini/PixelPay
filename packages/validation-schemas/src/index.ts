@@ -32,7 +32,7 @@ export const SignInSchema = z.object({
 export const PaymentSchema = z.object({
     token: z.string(),
     userId: z.string(),
-    amount: z.string().regex(/^\d+$/, "Amount must be numeric")
+    amount: z.string()
 })
 
 export const OnRampTxnSchema = z.object({

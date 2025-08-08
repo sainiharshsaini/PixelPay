@@ -9,7 +9,9 @@ app.use(express.json())
 
 app.post("/hdfcWebhook", async (req: Request, res: Response) => {
 
-    // if (req.headers["x-bank-secret"] !== process.env.HDFC_WEBHOOK_SECRET) {
+    // Webhook authentication
+    // const bankSecret = req.headers["x-bank-secret"];
+    // if (!bankSecret || bankSecret !== process.env.HDFC_WEBHOOK_SECRET) {
     //     return res.status(401).json({ error: "Unauthorized webhook" });
     // }
     //TODO: HDFC bank should ideally send us a secret so we know this is sent by them
@@ -27,27 +29,47 @@ app.post("/hdfcWebhook", async (req: Request, res: Response) => {
     const { token, userId, amount } = parsedData.data;
 
     console.log("webhook: ", token, userId, amount);
-    
 
     try {
-        await prisma.$transaction([
-            prisma.balance.updateMany({
+        await prisma.$transaction(async (tx) => {
+            const transaction = await tx.onRampTransaction.findUnique({
+                where: { token }
+            })
+
+            if (!transaction) {
+                throw new Error("Transaction not found");
+            }
+            if (transaction.status !== "Processing") { // Pending
+                throw new Error("Transaction already processed");
+            }
+
+            const userBalance = await tx.balance.findUnique({
+                where: { userId: Number(userId) }
+            })
+
+            if (!userBalance) {
+                throw new Error("User balance record not found");
+            }
+
+            await tx.balance.update({
                 where: { userId: Number(userId) },
                 data: {
                     amount: { increment: Number(amount) }
                 }
-            }),
-            prisma.onRampTransaction.updateMany({
+            })
+
+            await tx.onRampTransaction.update({
                 where: { token },
                 data: { status: "Success" }
-            })
-        ]);
+            });
+        })
 
-        console.log(`Webhook processed successfully for token: ${token}, userId: ${userId}`);
-        res.json({ message: "Webhook processed successfully" });
-    } catch (error) {
-        console.error("Webhook processing error:", error);
-        res.status(500).json({ error: "Failed to process webhook due to an internal server error." });
+        console.log(`Webhook processed successfully for token: ${token}`);
+        return res.json({ message: "Webhook processed successfully" });
+
+    } catch (error: any) {
+        console.error("Webhook processing error:", error.message);
+        return res.status(500).json({ error: error.message || "Internal Server Error" });
     }
 
 })

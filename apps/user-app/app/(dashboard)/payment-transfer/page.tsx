@@ -1,11 +1,12 @@
 import { AddMoneyCard } from '@/components/AddMoneyCard'
 import { BalanceCard } from '@/components/BalanceCard'
 import OnRampTxns from '@/components/OnRampTxns'
-import { getBalance, getOnRampTxns } from '@/lib/actions/paymentTransfer'
+import { fetchBalance, fetchOnRampTransactions } from '@/lib/actions/paymentTransfer'
 
 const PaymentTransfer = async () => {
-  const balance = await getBalance();
-  const transactions = await getOnRampTxns();
+
+  const balance = await fetchBalance();
+  const transactions = await fetchOnRampTransactions();
 
   return (
     <section className="relative min-h-[80vh] w-full px-2 sm:px-4 py-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">

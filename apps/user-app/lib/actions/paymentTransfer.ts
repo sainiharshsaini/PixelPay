@@ -1,86 +1,61 @@
 "use server";
 
 import { prisma } from "@repo/db";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../authOptions";
+import { getUserSession } from "../getUserSession";
 
-export async function getBalance() {
+export async function fetchBalance() {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+    const session = await getUserSession();
 
-    if (!userId) return { amount: 0, locked: 0 };
+    const userId = Number(session?.user?.id)
 
-    let balance = await prisma.balance.findUnique({
+    if (!userId) {
+      return { message: "Unauthenticated request" }
+    }
+
+    const balance = await prisma.balance.findFirst({
       where: {
-        userId: Number(userId)
-      },
-      select: {
-        amount: true,
-        locked: true
+        userId: userId
       }
     })
 
-    console.log("payment trs: ", userId, balance?.amount, balance?.locked);
-
-    // If balance doesn't exist, create it with defaults
-    if (!balance) {
-      balance = await prisma.balance.create({
-        data: {
-          userId: Number(userId),
-          amount: 0,
-          locked: 0,
-        },
-        select: {
-          amount: true,
-          locked: true,
-        }
-      });
-    }
-
     return {
-      amount: balance.amount,
-      locked: balance.locked,
+      amount: balance?.amount || 0,
+      locked: balance?.locked || 0
     };
 
-  } catch (error) {
-    console.error("Error fetching or creating balance:", error);
-    return { amount: 0, locked: 0 };
+  } catch (err: any) {
+    // Server-side logging only
+    console.error("[fetchBalance] DB error for userId:", err);
+    // Re-throw so caller can decide what to render
+    throw err;
   }
 }
 
-export async function getOnRampTxns() {
+export async function fetchOnRampTransactions() {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user?.id;
+    const session = await getUserSession();
+
+    const userId = Number(session?.user?.id)
 
     if (!userId) {
-      return [];
+      return { message: "Unauthenticated request" }
     }
 
-    const transactions = await prisma.onRampTransaction.findMany({
-      where: {
-        userId: Number(userId),
-      },
-      select: {
-        startTime: true,
-        amount: true,
-        status: true,
-        provider: true,
-      },
-      orderBy: {
-        startTime: "desc", // newest first
-      },
+    const txns = await prisma.onRampTransaction.findMany({
+      where: { userId: userId },
+      orderBy: { startTime: "desc" },
     });
 
-    return transactions.map((txn) => ({
-      time: txn.startTime,
-      amount: txn.amount,
-      status: txn.status,
-      provider: txn.provider,
+    return txns.map((t) => ({
+      time: t.startTime,
+      amount: t.amount,
+      status: t.status,
+      provider: t.provider,
     }));
-  } catch (error) {
-    console.error("Error fetching on-ramp transactions:", error);
-    return [];
+
+  } catch (err: any) {
+    console.error("[fetchOnRampTransactions] DB error for userId:", err);
+    throw err;
   }
 }
