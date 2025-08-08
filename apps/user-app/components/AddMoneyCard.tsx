@@ -54,7 +54,7 @@ export const AddMoneyCard = () => {
         }
 
         try {
-            await createOnRampTxn(amount * 100, provider);
+            await createOnRampTxn({amount, provider});
             toast.success("Transaction created successfully");
             window.location.href = redirectUrl;
         } catch (err: any) {

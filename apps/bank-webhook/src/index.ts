@@ -26,6 +26,9 @@ app.post("/hdfcWebhook", async (req: Request, res: Response) => {
 
     const { token, userId, amount } = parsedData.data;
 
+    console.log("webhook: ", token, userId, amount);
+    
+
     try {
         await prisma.$transaction([
             prisma.balance.updateMany({
