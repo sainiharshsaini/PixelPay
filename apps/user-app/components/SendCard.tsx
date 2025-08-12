@@ -32,15 +32,23 @@ export function SendCard() {
             return;
         }
 
+        // Convert to paise (integer) to avoid float rounding issues.
+        const paise = Math.round(numericAmount);
+
         try {
             setIsLoading(true);
 
-            await p2pTransfer(trimmedNumber, Math.round(numericAmount * 100)); // store in paisa
+            const result = await p2pTransfer(trimmedNumber, paise);
 
-            toast.success(`₹${numericAmount} sent successfully!`);
-            resetForm();
-        } catch (error) {
-            console.error("P2P Transfer failed:", error);
+            if (result?.success) {
+                toast.success(`₹${numericAmount.toFixed(2)} sent successfully!`);
+                resetForm();
+            } else {
+                toast.error(result?.message || "Transaction failed. Please try again.");
+            }
+
+        } catch (err) {
+            console.error("P2P Transfer failed (client):", err);
             toast.error("Transaction failed. Please try again later.");
         } finally {
             setIsLoading(false);
@@ -55,14 +63,14 @@ export function SendCard() {
                         <Input
                             placeholder="Enter recipient number"
                             value={recipientNumber}
-                            onChange={() => setRecipientNumber}
+                            onChange={(e) => setRecipientNumber(e.target.value)}
                             type="tel"
                             maxLength={10}
                         />
                         <Input
                             placeholder="Enter amount (INR)"
                             value={amount}
-                            onChange={() => setAmount}
+                            onChange={(e) => setAmount(e.target.value)}
                             type="number"
                             min="1"
                             step="0.01"

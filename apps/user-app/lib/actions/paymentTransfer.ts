@@ -13,7 +13,7 @@ export async function fetchBalance() {
       return { message: "Unauthenticated request" }
     }
 
-    const balance = await prisma.balance.findFirst({
+    const balance = await prisma.balance.findUnique({
       where: {
         userId: userId
       }

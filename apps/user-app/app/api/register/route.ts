@@ -31,13 +31,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        await prisma.user.create({
-            data: {
-                name,
-                email,
-                number,
-                password: hashedPassword
-            }
+        prisma.$transaction(async (tx) => {
+            const user = await tx.user.create({
+                data: {
+                    name,
+                    email,
+                    number,
+                    password: hashedPassword
+                }
+            })
+
+            await tx.balance.create({
+                data: {
+                    userId: user.id,
+                    amount: 0,   // start with zero balance
+                    locked: 0
+                }
+            });
         })
 
         if (process.env.NODE_ENV === "development") {
