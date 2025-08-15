@@ -12,6 +12,7 @@ export async function p2pTransfer(toNumber: string, amount: number) {
     }
 
     const session = await getUserSession();
+
     const fromUserId = Number(session?.user?.id);
 
     if (!fromUserId || Number.isNaN(fromUserId)) {

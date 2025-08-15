@@ -3,10 +3,37 @@ import { BalanceCard } from '@/components/BalanceCard'
 import OnRampTxns from '@/components/OnRampTxns'
 import { fetchBalance, fetchOnRampTransactions } from '@/lib/actions/paymentTransfer'
 
+interface Balance {
+  amount: number;
+  locked: number;
+}
+type TransactionStatus = "success" | "pending" | "failed" | string;
+
+interface Transaction {
+  time: Date;
+  amount: number;
+  status: TransactionStatus;
+  provider: string;
+}
+
 const PaymentTransfer = async () => {
 
-  const balance = await fetchBalance();
-  const transactions = await fetchOnRampTransactions();
+  let balance: any;
+  let transactions: Transaction[] = [];
+
+  // const balance = await fetchBalance();
+  // const transactions = await fetchOnRampTransactions();
+  try {
+    balance = await fetchBalance();
+  } catch (err) {
+    console.error('[PaymentTransfer] Failed to fetch balance:', err);
+  }
+
+  try {
+    transactions = await fetchOnRampTransactions();
+  } catch (err) {
+    console.error('[PaymentTransfer] Failed to fetch transactions:', err);
+  }
 
   return (
     <section className="relative min-h-[80vh] w-full px-2 sm:px-4 py-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50">

@@ -2,12 +2,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Separator } from "@/components/ui/separator"
 
 interface BalanceCardProps {
-  amount: number;
-  locked: number;
+  amount: number | any;
+  locked: number | any;
 }
 
 export const BalanceCard = ({ amount, locked }: BalanceCardProps) => {
-  const formatAmount = (value: number) => `₹${(value).toFixed(2)}`;
+  const formatAmount = (value: number) => `₹${Number(value ?? 0).toFixed(2)}`;
   const total = amount + locked;
 
   return (

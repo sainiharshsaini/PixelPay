@@ -3,31 +3,6 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { SignInSchema } from "@repo/validation-schemas";
 import { NextAuthOptions } from "next-auth";
-import { JWT } from "next-auth/jwt";
-import { Session } from "next-auth";
-
-interface CustomUser {
-    id: string;
-    name?: string | null;
-    email?: string | null;
-    number?: string | null;
-}
-
-interface CustomJWT extends JWT {
-    id: string;
-    name?: string | null;
-    email?: string | null;
-    number?: string | null;
-}
-
-interface CustomSession extends Session {
-    user?: {
-        id: string;
-        name?: string | null;
-        email?: string | null;
-        number?: string | null;
-    };
-}
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -46,7 +21,7 @@ export const authOptions: NextAuthOptions = {
                     required: true
                 }
             },
-            async authorize(credentials): Promise<CustomUser | null> {
+            async authorize(credentials){
                 const parsedCredentials = SignInSchema.safeParse(credentials);
 
                 if (!parsedCredentials.success) {
@@ -84,38 +59,37 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 return {
-                    id: existingUser.id.toString(),
-                    name: existingUser.name,
-                    email: existingUser.email,
-                    number: existingUser.number,
+                    id: String(existingUser.id),
+                    name: existingUser.name ?? null,
+                    email: existingUser.email ?? null,
+                    number: existingUser.number ?? null,
                 };
             },
         })
     ],
     session: {
-        strategy: "jwt"
+        strategy: "jwt",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
     },
     pages: {
         signIn: '/sign-in'
     },
     callbacks: {
-        async jwt({ token, user }: { token: JWT; user?: CustomUser }): Promise<JWT> {
+        async jwt({ token, user }) {
             if (user) {
-                (token as CustomJWT).id = user.id;
-                (token as CustomJWT).name = user.name;
-                (token as CustomJWT).email = user.email;
-                (token as CustomJWT).phone = user.number;
+                token.id = (user as any).id ?? token.id;
+                token.name = (user as any).name ?? token.name;
+                token.email = (user as any).email ?? token.email;
+                token.number = (user as any).number ?? token.number;
             }
             return token;
         },
-        async session({ session, token }: { session: Session; token: JWT }): Promise<Session> {
-            if (session.user && token) {
-                (session as CustomSession).user = {
-                    id: (token as CustomJWT).id,
-                    name: (token as CustomJWT).name,
-                    email: (token as CustomJWT).email,
-                    number: (token as CustomJWT).number,
-                };
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.id = String(token.id ?? session.user.id ?? "");
+                session.user.name = token.name ?? session.user.name ?? null;
+                session.user.email = token.email ?? session.user.email ?? null;
+                session.user.number = token.number ?? (session.user as any).number ?? null;
             }
             return session;
         }

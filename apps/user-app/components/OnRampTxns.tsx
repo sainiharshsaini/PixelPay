@@ -64,7 +64,7 @@ const OnRampTxns = ({ transactions }: OnRampTransactionsProps) => {
                 </div>
               </div>
               <div className="flex flex-col justify-center font-semibold text-green-600">
-                + ₹{(t.amount / 100).toFixed(2)}
+                + ₹{Number(t.amount / 100).toFixed(2)}
               </div>
             </div>
           ))}

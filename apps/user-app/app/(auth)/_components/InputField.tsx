@@ -8,6 +8,8 @@ type InputFieldProps = {
     placeholder?: string;
     register: UseFormRegister<any>;
     error?: FieldError;
+    disabled: boolean;
+    autoComplete: string | any;
 }
 
 const InputField = ({ label, name, type = "text", placeholder, register, error, ...rest }: InputFieldProps) => {

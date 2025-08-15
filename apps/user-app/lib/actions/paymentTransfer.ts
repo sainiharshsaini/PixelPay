@@ -38,9 +38,9 @@ export async function fetchOnRampTransactions() {
 
     const userId = Number(session?.user?.id)
 
-    if (!userId) {
-      return { message: "Unauthenticated request" }
-    }
+    // if (!userId) {
+    //   return { message: "Unauthenticated request" }
+    // }
 
     const txns = await prisma.onRampTransaction.findMany({
       where: { userId: userId },
