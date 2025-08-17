@@ -1,25 +1,53 @@
 "use client";
 
-import { useSession } from "next-auth/react"
+import { useSession } from "next-auth/react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Sparkles } from "lucide-react";
 
 const WelcomeCard = () => {
-    const session = useSession();
+  const { data: session } = useSession();
 
-    return ( 
-        <div className="p-8 flex flex-col items-center">
-            <div className="flex gap-2 text-3xl font-semibold mb-2 font-serif">
-                <h1>
-                    Welcome,
-                </h1>
-                <h1 className="text-blue-600">
-                    {session.data?.user?.name}
-                </h1>
-            </div>
-            <p className=" text-slate-600">
-                Start sending and receiving money securely in seconds.
-            </p>
+  const userInitials =
+    session?.user?.name
+      ?.split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase() || "U";
+
+  return (
+    <div
+      className="
+        relative w-full rounded-2xl p-6 sm:p-8 
+        bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 
+        text-white shadow-lg overflow-hidden
+      "
+    >
+      {/* Subtle glowing background effect */}
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#ffffff40,_transparent_50%)]"></div>
+
+      <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-6">
+        {/* Avatar */}
+        <Avatar className="h-16 w-16 border-2 border-white shadow-md">
+          <AvatarImage src={session?.user?.image || ""} />
+          <AvatarFallback className="bg-white text-purple-600 font-bold">
+            {userInitials}
+          </AvatarFallback>
+        </Avatar>
+
+        {/* Text */}
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+          <div className="flex items-center gap-2 text-2xl sm:text-3xl font-bold">
+            <h1>Welcome,</h1>
+            <h1 className="text-yellow-300">{session?.user?.name || "User"}</h1>
+            <Sparkles className="w-6 h-6 text-yellow-200 animate-pulse" />
+          </div>
+          <p className="mt-2 text-sm sm:text-base text-white/90 max-w-md">
+            Start sending and receiving money securely in seconds.
+          </p>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default WelcomeCard
+export default WelcomeCard;

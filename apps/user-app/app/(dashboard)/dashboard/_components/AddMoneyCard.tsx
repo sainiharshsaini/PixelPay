@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { createOnRampTxn } from "@/lib/actions/createOnRampTxn";
 import toast from "react-hot-toast";
@@ -19,8 +19,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type BankOption = {
     name: string;

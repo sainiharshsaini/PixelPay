@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Center } from "@repo/ui/Center";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 import { p2pTransfer } from "@/lib/actions/p2pTransfer";
 import toast from "react-hot-toast";
 
