@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
                     where: {
                         OR: [
                             { email: credential },
-                            { number: credential }
+                            { phoneNumber: credential }
                         ]
                     }
                 });
@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
                     id: String(existingUser.id),
                     name: existingUser.name ?? null,
                     email: existingUser.email ?? null,
-                    number: existingUser.number ?? null,
+                    phoneNumber: existingUser.phoneNumber ?? null,
                 };
             },
         })
@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
                 token.id = (user as any).id ?? token.id;
                 token.name = (user as any).name ?? token.name;
                 token.email = (user as any).email ?? token.email;
-                token.number = (user as any).number ?? token.number;
+                token.phoneNumber = (user as any).phoneNumber ?? token.phoneNumber;
             }
             return token;
         },
@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.id = String(token.id ?? session.user.id ?? "");
                 session.user.name = token.name ?? session.user.name ?? null;
                 session.user.email = token.email ?? session.user.email ?? null;
-                session.user.number = token.number ?? (session.user as any).number ?? null;
+                session.user.phoneNumber = token.phoneNumber ?? (session.user as any).phoneNumber ?? null;
             }
             return session;
         }

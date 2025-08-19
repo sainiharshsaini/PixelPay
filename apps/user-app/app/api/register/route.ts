@@ -16,7 +16,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             )
         }
 
-        const { name, email, number, password } = parsed.data;
+        const { name, email, phoneNumber, password } = parsed.data;
 
         const existingUser = await prisma.user.findUnique({
             where: { email }
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                 data: {
                     name,
                     email,
-                    number,
+                    phoneNumber,
                     password: hashedPassword
                 }
             })

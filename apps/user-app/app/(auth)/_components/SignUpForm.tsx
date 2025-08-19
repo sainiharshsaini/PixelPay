@@ -17,7 +17,7 @@ const formFields: {
 }[] = [
     { name: "name", label: "Full Name", type: "text", placeholder: "Enter your full name", autoComplete: "name" },
     { name: "email", label: "Email Address", type: "email", placeholder: "Enter your email", autoComplete: "email" },
-    { name: "number", label: "Phone Number", type: "tel", placeholder: "Enter your phone number", autoComplete: "tel" },
+    { name: "phoneNumber", label: "Phone Number", type: "tel", placeholder: "Enter your phone number", autoComplete: "tel" },
     { name: "password", label: "Password", type: "password", placeholder: "Enter a strong password", autoComplete: "new-password" },
     { name: "confirmPassword", label: "Confirm Password", type: "password", placeholder: "Re-enter your password", autoComplete: "new-password" },
   ];

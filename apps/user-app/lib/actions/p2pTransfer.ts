@@ -21,7 +21,7 @@ export async function p2pTransfer(toNumber: string, amount: number) {
 
     // find recipient
     const toUser = await prisma.user.findFirst({
-        where: { number: toNumber }
+        where: { phoneNumber: toNumber }
     });
 
     if (!toUser) {
@@ -93,7 +93,7 @@ export async function p2pTransfer(toNumber: string, amount: number) {
                 });
 
                 // create p2pTransfer immutable record
-                await tx.p2pTransfer.create({
+                await tx.p2PTransfer.create({
                     data: {
                         amount,
                         timestamp: new Date(),

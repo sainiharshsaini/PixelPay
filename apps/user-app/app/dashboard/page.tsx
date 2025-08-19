@@ -4,6 +4,7 @@ import { fetchBalance, fetchOnRampTransactions } from "@/lib/actions/paymentTran
 import QuickActions from "./_components/QuickActions";
 import Overview from "./_components/Overview";
 import RecentTransactions from "./_components/RecentTransactions";
+import OnRampTxns from "./_components/OnRampTxns";
 
 interface Balance {
     amount: number;
@@ -36,7 +37,8 @@ const Dashboard = async () => {
     }
 
     return (
-        <div className="w-full flex flex-col min-h-screen bg-gray-50 items-center gap-8 px-4 md:px-10 py-6">
+        <div className="w-full flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950 items-center gap-8 px-4 md:px-10 py-8">
+
             {/* Welcome */}
             <WelcomeCard />
 
@@ -44,13 +46,16 @@ const Dashboard = async () => {
             <BalanceCard amount={balance.amount} locked={balance.locked} />
 
             {/* Quick Actions */}
-            <QuickActions/>
+            <QuickActions />
 
             {/* Overview */}
-            <Overview/>
+            <Overview />
 
+            {/* OnRampTxn */}
+            <OnRampTxns transactions={transactions} />
+            
             {/* Recent Transactions */}
-            <RecentTransactions transactions={transactions}/>
+            <RecentTransactions transactions={transactions} />
         </div>
     );
 };
