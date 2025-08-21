@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { p2pTransfer } from "@/lib/actions/p2pTransfer";
 import toast from "react-hot-toast";
 
-export function SendForm() {
+export function SendForm({ onSuccess }: { onSuccess: () => void }) {
   const [recipientNumber, setRecipientNumber] = useState("");
   const [amount, setAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -20,7 +20,7 @@ export function SendForm() {
     const trimmedNumber = recipientNumber.trim();
     const numericAmount = Number(amount);
 
-    // Validation
+    // 🔹 Validation
     if (!/^\d{10}$/.test(trimmedNumber)) {
       toast.error("Please enter a valid 10-digit phone number.");
       return;
@@ -40,7 +40,9 @@ export function SendForm() {
 
       if (result?.success) {
         toast.success(`₹${numericAmount.toFixed(2)} sent successfully!`);
+
         resetForm();
+        onSuccess();
       } else {
         toast.error(result?.message || "Transaction failed. Please try again.");
       }

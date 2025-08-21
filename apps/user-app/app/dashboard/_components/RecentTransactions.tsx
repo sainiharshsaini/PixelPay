@@ -1,17 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
-import { cn } from "@/lib/utils"; // common utility for conditional classes
+import { cn } from "@/lib/utils";
 
 interface Transaction {
   id: string | number;
   title: string;
   description: string;
-  amount: number;
+  amount: number; // stored in INR
   type: "income" | "expense";
-  date?: string; // optional (production apps usually include timestamp)
+  date?: string | Date; // API may return string
+  time?: string | Date; // ✅ added
+  status?: "Success" | "Pending" | "Failed";
 }
 
 interface RecentTransactionsProps {
@@ -19,7 +21,7 @@ interface RecentTransactionsProps {
   isLoading?: boolean;
 }
 
-// Utility for consistent currency formatting
+// ✅ Utility: consistent INR formatting
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -27,10 +29,36 @@ const formatCurrency = (amount: number) =>
     minimumFractionDigits: 2,
   }).format(amount);
 
+// ✅ Utility: safe date formatting
+const formatDate = (date?: string | Date) => {
+  if (!date) return null;
+  const d = date instanceof Date ? date : new Date(date);
+  return d.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+};
+
+// ✅ Utility: time formatting
+const formatTime = (time?: string | Date) => {
+  if (!time) return null;
+  const t = time instanceof Date ? time : new Date(time);
+  return t.toLocaleTimeString("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
+
 const RecentTransactions = ({
   transactions,
   isLoading = false,
 }: RecentTransactionsProps) => {
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleTxns = showAll ? transactions : transactions.slice(0, 3);
+
   return (
     <div className="w-full">
       {/* Header */}
@@ -43,9 +71,12 @@ const RecentTransactions = ({
             Your latest financial activities
           </p>
         </div>
-        {transactions?.length > 0 && (
-          <button className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition">
-            View All
+        {transactions?.length > 3 && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition"
+          >
+            {showAll ? "View Less" : "View All"}
           </button>
         )}
       </div>
@@ -53,7 +84,7 @@ const RecentTransactions = ({
       {/* Card */}
       <Card className="p-6 shadow-sm rounded-2xl border border-slate-200 bg-white">
         {isLoading ? (
-          // Skeleton loader (production-ready UX)
+          // Skeleton loader
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
               <div
@@ -73,7 +104,7 @@ const RecentTransactions = ({
           </div>
         ) : transactions?.length ? (
           <div className="space-y-4">
-            {transactions.map((txn) => (
+            {visibleTxns.map((txn) => (
               <div
                 key={txn.id}
                 className="flex justify-between items-center p-3 rounded-xl hover:bg-slate-50 transition duration-200"
@@ -90,13 +121,26 @@ const RecentTransactions = ({
                     <p className="text-xs text-slate-500 line-clamp-1">
                       {txn.description}
                     </p>
-                    {txn.date && (
+
+                    {/* Date + Time */}
+                    {(txn.date || txn.time) && (
                       <p className="text-[11px] text-slate-400">
-                        {new Date(txn.date).toLocaleDateString("en-IN", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                        {formatDate(txn.date)}{" "}
+                        {txn.time ? `at ${formatTime(txn.time)}` : ""}
+                      </p>
+                    )}
+
+                    {/* Status */}
+                    {txn.status && (
+                      <p
+                        className={cn(
+                          "text-[11px] font-medium",
+                          txn.status === "Success" && "text-green-600",
+                          txn.status === "Pending" && "text-yellow-500",
+                          txn.status === "Failed" && "text-red-600"
+                        )}
+                      >
+                        {txn.status}
                       </p>
                     )}
                   </div>
@@ -116,7 +160,7 @@ const RecentTransactions = ({
             ))}
           </div>
         ) : (
-          // Empty State (friendly UI)
+          // Empty State
           <div className="text-center py-10">
             <div className="flex justify-center mb-3">
               <ArrowUpCircle className="h-10 w-10 text-slate-300" />

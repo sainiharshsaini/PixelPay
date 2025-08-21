@@ -25,9 +25,7 @@ export async function fetchBalance() {
     };
 
   } catch (err: any) {
-    // Server-side logging only
     console.error("[fetchBalance] DB error for userId:", err);
-    // Re-throw so caller can decide what to render
     throw err;
   }
 }
@@ -38,13 +36,14 @@ export async function fetchOnRampTransactions() {
 
     const userId = Number(session?.user?.id)
 
-    // if (!userId) {
-    //   return { message: "Unauthenticated request" }
-    // }
+    if (!userId) {
+      return { message: "Unauthenticated request" }
+    }
 
     const txns = await prisma.onRampTransaction.findMany({
       where: { userId: userId },
       orderBy: { startTime: "desc" },
+      take: 10,
     });
 
     return txns.map((t) => ({
@@ -58,4 +57,40 @@ export async function fetchOnRampTransactions() {
     console.error("[fetchOnRampTransactions] DB error for userId:", err);
     throw err;
   }
+}
+
+export async function fetchRecentTransactions() {
+  const session = await getUserSession();
+  const userId = Number(session?.user?.id);
+
+  if (!userId) {
+    return { message: "Unauthenticated request" }
+  }
+
+  const recentTxns = await prisma.p2PTransfer.findMany({
+    where: {
+      OR: [
+        { fromUserId: userId },
+        { toUserId: userId }
+      ]
+    },
+    include: {
+      fromUser: { select: { name: true, email: true } },
+      toUser: { select: { name: true, email: true } },
+    },
+    orderBy: { timestamp: "desc" },
+    take: 10
+  });
+
+  return recentTxns.map((txn) => ({
+    id: txn.id,
+    title:
+      txn.fromUserId === userId
+        ? `Sent to ${txn.toUser.name || txn.toUser.email}`
+        : `Received from ${txn.fromUser.name || txn.fromUser.email}`,
+    description: txn.status, // could be "Pending", "Success", "Failed"
+    amount: txn.amount,
+    type: txn.fromUserId === userId ? "expense" : "income",
+    date: txn.timestamp.toISOString(),
+  }))
 }

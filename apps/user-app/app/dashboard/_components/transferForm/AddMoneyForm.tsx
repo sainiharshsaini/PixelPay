@@ -20,17 +20,11 @@ type BankOption = {
 };
 
 const SUPPORTED_BANKS: BankOption[] = [
-  {
-    name: "HDFC Bank",
-    redirectUrl: "https://netbanking.hdfcbank.com",
-  },
-  {
-    name: "Axis Bank",
-    redirectUrl: "https://www.axisbank.com/",
-  },
+  { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com" },
+  { name: "Axis Bank", redirectUrl: "https://www.axisbank.com/" },
 ];
 
-export const AddMoneyForm = () => {
+export const AddMoneyForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [amount, setAmount] = useState<number>(0);
   const [redirectUrl, setRedirectUrl] = useState<string>(
     SUPPORTED_BANKS[0]?.redirectUrl || ""
@@ -38,25 +32,33 @@ export const AddMoneyForm = () => {
   const [provider, setProvider] = useState<string>(
     SUPPORTED_BANKS[0]?.name || ""
   );
+  const [loading, setLoading] = useState(false);
 
   const handleAddMoney = async () => {
     if (!amount || amount <= 0) {
       toast.error("Please enter a valid amount");
       return;
     }
-
     if (!provider) {
       toast.error("Select a valid bank");
       return;
     }
 
     try {
+      setLoading(true);
       await createOnRampTxn({ amount, provider });
+
       toast.success("Transaction initiated successfully 🚀");
-      window.location.href = redirectUrl;
+
+      onSuccess();
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 500);
     } catch (err: any) {
       toast.error("Something went wrong");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,10 +107,11 @@ export const AddMoneyForm = () => {
       {/* Button */}
       <Button
         type="button"
+        disabled={loading}
         className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-md transition-all"
         onClick={handleAddMoney}
       >
-        Add Money
+        {loading ? "Processing..." : "Add Money"}
       </Button>
     </div>
   );

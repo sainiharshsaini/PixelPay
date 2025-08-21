@@ -124,7 +124,7 @@ const Header = () => {
                 </div>
 
                 <DropdownMenuItem
-                  onClick={() => signOut()}
+                  onClick={() => signOut({ callbackUrl: "/" })}
                   className="text-red-600 focus:text-red-700 cursor-pointer"
                 >
                   Logout
@@ -135,7 +135,7 @@ const Header = () => {
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
-                onClick={() => signIn()}
+                onClick={() => signIn("credentials", { redirect: true, callbackUrl: "/dashboard" })}
                 className="text-sm hover:bg-purple-50 hover:text-purple-700 transition-colors"
               >
                 Login

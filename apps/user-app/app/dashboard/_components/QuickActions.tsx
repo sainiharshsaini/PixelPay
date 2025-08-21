@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { AddMoneyForm } from "./transferForm/AddMoneyForm";
 import { SendForm } from "./transferForm/P2pSendForm";
 import { Card } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -39,6 +40,14 @@ const quickActions = [
 ];
 
 const QuickActions = () => {
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSuccess = () => {
+    setOpenDialog(null);
+    router.refresh();
+  };
+
   return (
     <div className="w-full">
       <h2 className="text-lg font-semibold mb-4 text-foreground">
@@ -47,10 +56,15 @@ const QuickActions = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {quickActions.map((item, idx) => (
-          <Dialog key={idx}>
+          <Dialog
+            key={idx}
+            open={openDialog === item.action}
+            onOpenChange={(isOpen) =>
+              setOpenDialog(isOpen ? item.action : null)
+            }
+          >
             <DialogTrigger asChild>
               <Card className="group p-6 flex flex-col items-center justify-center text-center cursor-pointer border border-border/50 bg-white/90 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl shadow-md hover:shadow-xl transition-all duration-200 hover:scale-[1.05]">
-                {/* Icon container */}
                 <div
                   className={`w-14 h-14 mt-2 flex items-center justify-center rounded-full bg-gradient-to-r ${item.color} mb-1 shadow-md`}
                 >
@@ -81,9 +95,11 @@ const QuickActions = () => {
                 </DialogDescription>
               </DialogHeader>
 
-              {/* Conditional rendering */}
-              {item.action === "addMoney" && <AddMoneyForm />}
-              {item.action === "p2p" && <SendForm />}
+              {/* 🔹 Conditional rendering */}
+              {item.action === "addMoney" && (
+                <AddMoneyForm onSuccess={handleSuccess} />
+              )}
+              {item.action === "p2p" && <SendForm onSuccess={handleSuccess} />}
               {item.action === "sendToBank" && (
                 <div className="p-4 text-center text-sm text-muted-foreground">
                   🚀 Coming Soon: We’re working hard to bring you secure and fast
