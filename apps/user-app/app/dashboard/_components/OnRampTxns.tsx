@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Receipt } from "lucide-react";
 
-type TransactionStatus = "Success" | "Processing" | "Failure" | string;
+type TransactionStatus = "Success" | "Processing" | "Failure";
 
 export interface Transaction {
   time: string | Date;

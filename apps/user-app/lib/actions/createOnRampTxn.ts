@@ -4,35 +4,31 @@ import { prisma } from "@repo/db";
 import { OnRampTxnSchema, OnRampTxnType } from "@repo/validation-schemas";
 import { getUserSession } from "../getUserSession";
 import crypto from "crypto";
+import axios from "axios";
+
+const BANK_API_URL = process.env.BANK_API_URL || "http://localhost:4001/initiatePayment";
+const CALLBACK_URL = process.env.BANK_WEBHOOK_URL || "http://localhost:3003/bankWebhook";
 
 export async function createOnRampTxn(params: OnRampTxnType) {
     try {
         const session = await getUserSession();
-
         const userId = Number(session?.user?.id)
 
-        if (!userId) {
-            return { message: "Unauthenticated request" }
-        }
+        if (!userId) return { message: "Unauthenticated request" }
 
-        // if (!Number.isInteger(userId) || userId <= 0) {
-        //   return { message: "Invalid user ID" };
-        // }
 
-        const parsedData = OnRampTxnSchema.safeParse(params)
+        const parsedData = OnRampTxnSchema.safeParse(params);
         if (!parsedData.success) {
             return { message: parsedData.error.errors[0]?.message || "Invalid data" };
         }
 
         const { provider, amount } = parsedData.data
 
-        if (amount <= 0) {
-            return { message: "Amount must be greater than zero" };
-        }
+        if (amount <= 0) return { message: "Amount must be greater than zero" };
 
         const token = crypto.randomUUID(); // Ideally the token should come from the banking provider (hdfc/axis)
-    
-        await prisma.onRampTransaction.create({
+
+        await prisma.onRampTransaction.create({ //Store transaction in DB as "Processing"
             data: {
                 userId,
                 amount: Math.round(amount * 100),
@@ -43,8 +39,16 @@ export async function createOnRampTxn(params: OnRampTxnType) {
             },
         })
 
-        return { message: "On Ramp transaction created successfully" };
-        
+        // Call Fake Bank API(instead of real HDFC / Axis)
+        await axios.post(BANK_API_URL, {
+            token,
+            userId,
+            amount,
+            callbackUrl: CALLBACK_URL,
+        });
+
+        return { message: "On Ramp transaction created Successfully", token };
+
     } catch (error) {
         console.error("[createOnRampTxn] Error:", error);
         return { message: "Internal server error" };

@@ -1,7 +1,7 @@
 {
-  "name": "bank-webhook",
+  "name": "fake-bank-server",
   "version": "1.0.0",
-  "description": "Webhook service for handling bank transactions securely",
+  "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
@@ -12,17 +12,16 @@
   "author": "HARSH SAINI",
   "license": "ISC",
   "dependencies": {
-    "@repo/db": "workspace:*",
     "@repo/validation-schemas": "workspace:*",
+    "axios": "^1.8.4",
     "dotenv": "^17.2.1",
-    "esbuild": "^0.25.2",
-    "express": "^5.1.0",
-    "pino": "^9.8.0"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.1.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^24.3.0",
+    "esbuild": "^0.25.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }

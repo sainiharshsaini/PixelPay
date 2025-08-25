@@ -14,49 +14,55 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-type BankOption = {
-  name: string;
-  redirectUrl: string;
-};
+// type BankOption = {
+//   name: string;
+//   redirectUrl: string;
+// };
 
-const SUPPORTED_BANKS: BankOption[] = [
-  { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com" },
-  { name: "Axis Bank", redirectUrl: "https://www.axisbank.com/" },
-];
+const SUPPORTED_BANKS = [{ name: "HDFC Bank" }, { name: "Axis Bank" }];
+
+// const SUPPORTED_BANKS: BankOption[] = [
+//   { name: "HDFC Bank", redirectUrl: "https://netbanking.hdfcbank.com" },
+//   { name: "Axis Bank", redirectUrl: "https://www.axisbank.com/" },
+// ];
 
 export const AddMoneyForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const [amount, setAmount] = useState<number>(0);
-  const [redirectUrl, setRedirectUrl] = useState<string>(
-    SUPPORTED_BANKS[0]?.redirectUrl || ""
-  );
-  const [provider, setProvider] = useState<string>(
-    SUPPORTED_BANKS[0]?.name || ""
-  );
+  const [provider, setProvider] = useState<string>("");
   const [loading, setLoading] = useState(false);
+
+  // const [redirectUrl, setRedirectUrl] = useState<string>(
+  //   SUPPORTED_BANKS[0]?.redirectUrl || ""
+  // );
 
   const handleAddMoney = async () => {
     if (!amount || amount <= 0) {
       toast.error("Please enter a valid amount");
       return;
     }
-    if (!provider) {
+    if (!SUPPORTED_BANKS.some(bank => bank.name === provider)) {
       toast.error("Select a valid bank");
       return;
     }
 
     try {
       setLoading(true);
-      await createOnRampTxn({ amount, provider });
+      
+      const res = await createOnRampTxn({ amount, provider });
 
-      toast.success("Transaction initiated successfully 🚀");
+      if (res.message.includes("Sucessfully") || res.token) {
+        toast.success("Transaction initiated successfully");
+        onSuccess();
+      } else {
+        toast.error(res.message || "Transaction Failed");
+      }
 
-      onSuccess();
-      setTimeout(() => {
-        window.location.href = redirectUrl;
-      }, 500);
-    } catch (err: any) {
+      // setTimeout(() => {
+      //   window.location.href = redirectUrl;
+      // }, 500);
+
+    } catch (err) {
       toast.error("Something went wrong");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -64,7 +70,7 @@ export const AddMoneyForm = ({ onSuccess }: { onSuccess: () => void }) => {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Amount input */}
+
       <div className="grid gap-2">
         <Label htmlFor="amount">Amount</Label>
         <Input
@@ -77,14 +83,13 @@ export const AddMoneyForm = ({ onSuccess }: { onSuccess: () => void }) => {
         />
       </div>
 
-      {/* Bank selection */}
       <div className="grid gap-2">
         <Label htmlFor="selectBank">Select Bank</Label>
         <Select
-          defaultValue={SUPPORTED_BANKS[0]?.name}
+          // defaultValue={SUPPORTED_BANKS[0]?.name}
           onValueChange={(val) => {
             const selected = SUPPORTED_BANKS.find((x) => x.name === val);
-            setRedirectUrl(selected?.redirectUrl || "");
+            // setRedirectUrl(selected?.redirectUrl || "");
             setProvider(selected?.name || "");
           }}
         >
@@ -104,11 +109,9 @@ export const AddMoneyForm = ({ onSuccess }: { onSuccess: () => void }) => {
         </Select>
       </div>
 
-      {/* Button */}
       <Button
-        type="button"
         disabled={loading}
-        className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-md transition-all"
+        className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md"
         onClick={handleAddMoney}
       >
         {loading ? "Processing..." : "Add Money"}

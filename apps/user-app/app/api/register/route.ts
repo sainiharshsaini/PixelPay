@@ -41,13 +41,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                 }
             })
 
-            await tx.balance.create({
-                data: {
-                    userId: user.id,
-                    amount: 0,   // start with zero balance
-                    locked: 0
-                }
-            });
+            // await tx.balance.create({
+            //     data: {
+            //         userId: user.id,
+            //         amount: 0, 
+            //         locked: 0
+            //     }
+            // });
         })
 
         if (process.env.NODE_ENV === "development") {

@@ -1,0 +1,6 @@
+// Webhook authentication
+    // const bankSecret = req.headers["x-bank-secret"];
+    // if (!bankSecret || bankSecret !== process.env.HDFC_WEBHOOK_SECRET) {
+    //     return res.status(401).json({ error: "Unauthorized webhook" });
+    // }
+    //TODO: HDFC bank should ideally send us a secret so we know this is sent by them

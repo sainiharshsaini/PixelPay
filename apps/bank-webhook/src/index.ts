@@ -1,81 +1,90 @@
 import express, { Request, Response } from "express";
 import { prisma } from "@repo/db";
-import { PaymentSchema, PaymentSchemaType } from "@repo/validation-schemas";
 import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
 app.use(express.json())
 
-app.post("/hdfcWebhook", async (req: Request, res: Response) => {
+type PaymentStatus = "Success" | "Failure" | "Processing";
 
-    // Webhook authentication
-    // const bankSecret = req.headers["x-bank-secret"];
-    // if (!bankSecret || bankSecret !== process.env.HDFC_WEBHOOK_SECRET) {
-    //     return res.status(401).json({ error: "Unauthorized webhook" });
-    // }
-    //TODO: HDFC bank should ideally send us a secret so we know this is sent by them
+interface WebhookRequestBody {
+    token: string;
+    status: PaymentStatus;
+    userId: number;
+    amount: number;
+}
 
-    const parsedData = PaymentSchema.safeParse(req.body);
-
-    if (!parsedData.success) {
-        console.error("Invalid webhook data received:", parsedData.error.format());
-        return res.status(400).json({
-            error: "Invalid data provided",
-            details: parsedData.error.format()
-        });
-    }
-
-    const { token, userId, amount } = parsedData.data;
-
-    console.log("webhook: ", token, userId, amount);
-
+app.post("/bankWebhook", async (req: Request, res: Response) => {
     try {
-        await prisma.$transaction(async (tx) => {
-            const transaction = await tx.onRampTransaction.findUnique({
-                where: { token }
-            })
+        // const parsedData = PaymentSchema.safeParse(req.body);
+        // const { token, userId, amount } = parsedData.data;
 
-            if (!transaction) {
-                throw new Error("Transaction not found");
-            }
-            if (transaction.status !== "Processing") { // Pending
-                throw new Error("Transaction already processed");
-            }
+        const { token, status, userId, amount } = req.body as WebhookRequestBody
 
-            const userBalance = await tx.balance.findUnique({
-                where: { userId: Number(userId) }
-            })
+        if (!token || !status || !userId || !amount) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
 
-            if (!userBalance) {
-                throw new Error("User balance record not found");
-            }
+        const txn = await prisma.onRampTransaction.findUnique({ where: { token } });
+        if (!txn) {
+            return res.status(404).json({ message: "Transaction not found" });
+        }
 
-            await tx.balance.update({
-                where: { userId: Number(userId) },
-                data: {
-                    amount: { increment: Number(amount) }
+        // Avoid re-processing completed transactions
+        if (txn.status === "Success" || txn.status === "Failure") {
+            return res.status(200).json({ message: "Transaction already processed" });
+        }
+
+        if (status === "Success") {
+            await prisma.$transaction(async (tx) => {
+                await tx.onRampTransaction.update({
+                    where: { token },
+                    data: {
+                        status: "Success",
+                        endTime: new Date(),
+                    },
+                });
+
+                // Update or create Balance (if user balance does not exist, create it)
+                const balance = await tx.balance.findUnique({
+                    where: { userId },
+                });
+
+                if (balance) {
+                    await tx.balance.update({
+                        where: { userId },
+                        data: { amount: { increment: Number(amount) } },
+                        
+                    });
+                } else {
+                    await tx.balance.create({
+                        data: {
+                            userId,
+                            amount,
+                            locked: 0,
+                            createdAt: new Date(),
+                            updatedAt: new Date(),
+                        },
+                    });
                 }
-            })
-
-            await tx.onRampTransaction.update({
-                where: { token },
-                data: { status: "Success" }
             });
-        })
-
-        console.log(`Webhook processed successfully for token: ${token}`);
-        return res.json({ message: "Webhook processed successfully" });
-
-    } catch (error: any) {
-        console.error("Webhook processing error:", error.message);
-        return res.status(500).json({ error: error.message || "Internal Server Error" });
+            return res.status(200).json({ message: "Money added to your wallet successfully." });
+        } else {
+            await prisma.onRampTransaction.update({
+                where: { token },
+                data: { status, endTime: new Date() },
+            });
+            return res.status(200).json({ message: `Transaction status updated to ${status}.` });
+        }
+    } catch (error) {
+        console.error("Webhook processing error:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
-
 })
 
 const PORT = process.env.PORT || 3003;
 
 app.listen(PORT, () => {
-    console.log(`Webhook server listening on port ${PORT}`);
+    console.log(`Bank webhook server listening on port ${PORT}`);
 });
