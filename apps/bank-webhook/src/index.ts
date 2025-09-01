@@ -55,7 +55,7 @@ app.post("/bankWebhook", async (req: Request, res: Response) => {
                     await tx.balance.update({
                         where: { userId },
                         data: { amount: { increment: Number(amount) } },
-                        
+
                     });
                 } else {
                     await tx.balance.create({
