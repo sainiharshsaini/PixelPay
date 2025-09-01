@@ -6,17 +6,16 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Receipt } from "lucide-react";
 
-type TransactionStatus = "Success" | "Processing" | "Failure";
-
+export type TransactionStatus = "Success" | "Processing" | "Failure";
 export interface Transaction {
   time: string | Date;
-  amount: number; // stored in paise
+  amount: number;
   status: TransactionStatus;
   provider: string;
 }
 
 interface OnRampTransactionsProps {
-  transactions: Transaction[];
+  onRampTxns: Transaction[];
   isLoading?: boolean;
 }
 
@@ -26,7 +25,7 @@ const statusColors: Record<TransactionStatus, string> = {
   Failure: "bg-red-100 text-red-700 border border-red-200",
 };
 
-// ✅ Format INR
+// Format INR
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -34,7 +33,7 @@ const formatCurrency = (amount: number) =>
     minimumFractionDigits: 2,
   }).format(amount / 100);
 
-// ✅ Format date & time
+// Format date & time
 const formatDateTime = (time: string | Date) => {
   const date = time instanceof Date ? time : new Date(time);
   return (
@@ -51,13 +50,10 @@ const formatDateTime = (time: string | Date) => {
   );
 };
 
-const OnRampTxns = ({
-  transactions,
-  isLoading = false,
-}: OnRampTransactionsProps) => {
-  const [showAll, setShowAll] = useState(false);
-
-  const visibleTxns = showAll ? transactions : transactions.slice(0, 3);
+const OnRampTxns = ({ onRampTxns, isLoading = false }: OnRampTransactionsProps) => {
+  
+  const [showAll, setShowAll] = useState(false)
+  const visibleTxns = showAll ? onRampTxns : onRampTxns.slice(0, 3);
 
   return (
     <div className="w-full">
@@ -71,7 +67,7 @@ const OnRampTxns = ({
             Track your recent onramp transactions here
           </p>
         </div>
-        {transactions?.length > 3 && (
+        {onRampTxns?.length > 3 && (
           <button
             onClick={() => setShowAll(!showAll)}
             className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition"
@@ -103,7 +99,7 @@ const OnRampTxns = ({
                 </div>
               ))}
             </div>
-          ) : transactions.length ? (
+          ) : onRampTxns.length ? (
             <div className="divide-y divide-muted">
               {visibleTxns.map((t, idx) => (
                 <div

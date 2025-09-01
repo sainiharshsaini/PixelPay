@@ -23,8 +23,6 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@repo/db": "workspace:*",
     "@repo/recoil-store": "workspace:*",
-    "@repo/tailwind-config": "workspace:*",
-    "@repo/ui": "workspace:*",
     "@repo/validation-schemas": "workspace:*",
     "@tailwindcss/postcss": "^4.1.11",
     "axios": "^1.8.4",

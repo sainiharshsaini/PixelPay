@@ -9,8 +9,7 @@ interface BalanceCardProps {
   locked: number;
 }
 
-export const BalanceCard = ({ balance }: BalanceCardProps) => {
-  const { amount, locked } = balance;
+export const BalanceCard = ({ amount, locked }: BalanceCardProps) => {
   const formatAmount = (value: number) => `₹${Number(value ?? 0).toFixed(2)}`;
   const total = amount + locked;
 

@@ -2,19 +2,32 @@
   "name": "@repo/recoil-store",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "private": true,
   "exports": {
-    "./balance": "./src/hooks/useBalance.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./balance": {
+      "types": "./dist/hooks/useBalance.d.ts",
+      "import": "./dist/hooks/useBalance.js",
+      "require": "./dist/hooks/useBalance.js"
+    }
   },
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "recoil": "^0.7.7"

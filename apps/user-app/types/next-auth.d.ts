@@ -20,13 +20,3 @@ declare module "next-auth/jwt" {
     phoneNumber?: string | null;
   }
 }
-
-export type UnifiedTransaction = {
-  id: number;
-  type: "OnRamp" | "P2P";
-  amount: number;
-  status: string;
-  provider?: string;
-  counterpart?: string; // "Sent to X" / "Received from Y"
-  time: Date;
-};

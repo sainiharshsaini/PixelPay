@@ -8,7 +8,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const body = await req.json();
 
         const parsed = SignUpSchema.safeParse(body);
-
         if (!parsed.success) {
             return NextResponse.json(
                 { message: parsed.error.errors[0]?.message },
@@ -40,18 +39,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                     password: hashedPassword
                 }
             })
-
-            // await tx.balance.create({
-            //     data: {
-            //         userId: user.id,
-            //         amount: 0, 
-            //         locked: 0
-            //     }
-            // });
         })
 
         if (process.env.NODE_ENV === "development") {
-            console.log("✅ New user registered:", email);
+            console.log("New user registered:", email);
         }
 
         return NextResponse.json(

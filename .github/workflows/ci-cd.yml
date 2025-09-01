@@ -17,23 +17,26 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
 
       - name: Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8 # or your desired pnpm version
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-cache
+        shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: Cache pnpm store
+      - name: Setup pnpm cache
         uses: actions/cache@v4
         with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            pnpm-store-${{ runner.os }}-
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -42,25 +45,27 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .turbo
-          key: turbo-${{ runner.os }}-${{ github.sha }}
+          key: turbo-${{ runner.os }}-${{ github.ref_name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            turbo-${{ runner.os }}-
+            turbo-${{ runner.os }}-${{ github.ref_name }}-
 
       - name: Build all packages
-        run: pnpm turbo run build --filter=...
+        run: pnpm turbo run build
 
       - name: Run tests
-        run: pnpm turbo run test --filter=...
+        run: pnpm turbo run test
 
       - name: TypeScript type check
-        run: pnpm turbo run typecheck --filter=...
+        run: pnpm turbo run typecheck
 
-      # Optionally, upload build artifacts for deployment
-      # - name: Upload production build
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: production-build
-      #     path: ./apps/**/dist
+      - name: Upload production build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-build
+          path: |
+            apps/user-app/.next
+            # Add other app build directories if needed
+            # e.g., apps/merchant-app/dist
 
   # Optional: Add deployment job below if needed
   # deploy:

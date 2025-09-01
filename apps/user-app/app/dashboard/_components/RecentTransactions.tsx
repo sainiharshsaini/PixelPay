@@ -17,7 +17,7 @@ interface Transaction {
 }
 
 interface RecentTransactionsProps {
-  transactions: Transaction[];
+  recentTxns: Transaction[];
   isLoading?: boolean;
 }
 
@@ -52,12 +52,12 @@ const formatTime = (time?: string | Date) => {
 };
 
 const RecentTransactions = ({
-  transactions,
+  recentTxns,
   isLoading = false,
 }: RecentTransactionsProps) => {
   const [showAll, setShowAll] = useState(false);
 
-  const visibleTxns = showAll ? transactions : transactions.slice(0, 3);
+  const visibleTxns = showAll ? recentTxns : recentTxns.slice(0, 3);
 
   return (
     <div className="w-full">
@@ -71,7 +71,7 @@ const RecentTransactions = ({
             Your latest financial activities
           </p>
         </div>
-        {transactions?.length > 3 && (
+        {recentTxns?.length > 3 && (
           <button
             onClick={() => setShowAll(!showAll)}
             className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition"
@@ -102,7 +102,7 @@ const RecentTransactions = ({
               </div>
             ))}
           </div>
-        ) : transactions?.length ? (
+        ) : recentTxns?.length ? (
           <div className="space-y-4">
             {visibleTxns.map((txn) => (
               <div
