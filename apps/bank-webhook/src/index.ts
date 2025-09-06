@@ -17,9 +17,6 @@ interface WebhookRequestBody {
 
 app.post("/bankWebhook", async (req: Request, res: Response) => {
     try {
-        // const parsedData = PaymentSchema.safeParse(req.body);
-        // const { token, userId, amount } = parsedData.data;
-
         const { token, status, userId, amount } = req.body as WebhookRequestBody
 
         if (!token || !status || !userId || !amount) {
@@ -31,7 +28,6 @@ app.post("/bankWebhook", async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Transaction not found" });
         }
 
-        // Avoid re-processing completed transactions
         if (txn.status === "Success" || txn.status === "Failure") {
             return res.status(200).json({ message: "Transaction already processed" });
         }
@@ -46,7 +42,6 @@ app.post("/bankWebhook", async (req: Request, res: Response) => {
                     },
                 });
 
-                // Update or create Balance (if user balance does not exist, create it)
                 const balance = await tx.balance.findUnique({
                     where: { userId },
                 });

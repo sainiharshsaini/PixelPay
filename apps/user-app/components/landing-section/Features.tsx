@@ -24,7 +24,7 @@ const features = [
 const Features = () => {
 	return (
 		<section className="relative overflow-hidden py-32">
-			{/* Soft gradient backdrop */}
+
 			<div className="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background pointer-events-none"></div>
 			<div className="absolute top-[-80px] left-1/4 w-[500px] h-[500px] bg-gradient-aurora rounded-full blur-3xl opacity-10"></div>
 
@@ -48,7 +48,7 @@ const Features = () => {
 							className="group relative p-10 text-center bg-gradient-glass backdrop-blur-xl border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant"
 							style={{ animationDelay: `${index * 150}ms` }}
 						>
-							{/* Hover glow effect */}
+	
 							<div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity duration-500" />
 
 							<div className="relative z-10">

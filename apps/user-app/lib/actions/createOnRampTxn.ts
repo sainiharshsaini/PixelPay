@@ -26,9 +26,9 @@ export async function createOnRampTxn(params: OnRampTxnType) {
 
         if (amount <= 0) return { message: "Amount must be greater than zero" };
 
-        const token = crypto.randomUUID(); // Ideally the token should come from the banking provider (hdfc/axis)
+        const token = crypto.randomUUID();
 
-        await prisma.onRampTransaction.create({ //Store transaction in DB as "Processing"
+        await prisma.onRampTransaction.create({
             data: {
                 userId,
                 amount: Math.round(amount * 100),
@@ -39,7 +39,7 @@ export async function createOnRampTxn(params: OnRampTxnType) {
             },
         })
 
-        // Call Fake Bank API(instead of real HDFC / Axis)
+        // Call Fake Bank API
         await axios.post(BANK_API_URL, {
             token,
             userId,

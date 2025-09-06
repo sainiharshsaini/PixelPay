@@ -27,12 +27,11 @@ const testimonials = [
 const Testimonials = React.memo(() => {
     return (
         <section className="py-32 relative overflow-hidden bg-background">
-            {/* Soft Gradient Background */}
             <div className="absolute inset-0 bg-gradient-to-b from-background via-muted/10 to-background z-0" />
             <div className="absolute -bottom-10 right-[20%] w-[400px] h-[400px] bg-gradient-to-br from-pink-400 to-purple-500 blur-[120px] opacity-20 rounded-full animate-pulse z-0" />
 
             <div className="container mx-auto px-6 relative z-10">
-                {/* Header */}
+     
                 <div className="text-center mb-20">
                     <Badge className="mb-6 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 backdrop-blur-md border-white/20">
                         💬 Customer Stories
@@ -45,7 +44,6 @@ const Testimonials = React.memo(() => {
                     </p>
                 </div>
 
-                {/* Testimonials Grid */}
                 <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
                     {testimonials.map((testimonial, index) => (
                         <Card
@@ -57,11 +55,9 @@ const Testimonials = React.memo(() => {
                                 animationFillMode: "both",
                             }}
                         >
-                            {/* Background overlay on hover */}
                             <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-400 opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
 
                             <div className="relative z-10">
-                                {/* Star rating */}
                                 <div className="flex mb-6">
                                     {[...Array(testimonial.rating)].map((_, i) => (
                                         <Star
@@ -73,12 +69,10 @@ const Testimonials = React.memo(() => {
                                     ))}
                                 </div>
 
-                                {/* Review text */}
                                 <p className="text-lg italic text-foreground mb-8 leading-relaxed">
                                     "{testimonial.content}"
                                 </p>
 
-                                {/* Author info */}
                                 <div className="flex items-center space-x-4">
                                     <div
                                         className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md"

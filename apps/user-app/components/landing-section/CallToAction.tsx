@@ -7,14 +7,13 @@ import { Badge } from '../ui/badge'
 const CallToAction = React.memo(() => {
     return (
         <section className="relative overflow-hidden py-28 sm:py-32">
-            {/* Decorative Blurs */}
+
             <div className="absolute inset-0 -z-10">
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-10" />
                 <div className="absolute -top-20 -left-20 w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-400 blur-[120px] opacity-30 rounded-full" />
                 <div className="absolute bottom-[-60px] right-[-60px] w-[400px] h-[400px] bg-gradient-to-br from-blue-400 to-indigo-500 blur-[120px] opacity-20 rounded-full" />
             </div>
 
-            {/* CTA Content */}
             <div className="container mx-auto px-4 text-center relative z-10">
                 <Badge className="mb-6 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white text-sm px-5 py-2 rounded-full shadow-lg backdrop-blur-md border border-white/20">
                     🚀 Get Started Today

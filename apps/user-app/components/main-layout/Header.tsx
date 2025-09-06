@@ -45,7 +45,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/80 backdrop-blur-md shadow-sm transition-all duration-300">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
+
         <div className="flex items-center gap-3 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold shadow group-hover:scale-105 group-hover:shadow-lg transition-all duration-200">
             <span className="text-white font-bold text-sm">PP</span>
@@ -58,7 +58,6 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Desktop Navigation (only when logged in) */}
         {isAuthenticated && (
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
             <Link
@@ -76,7 +75,6 @@ const Header = () => {
           </nav>
         )}
 
-        {/* Right side */}
         <div>
           {status === "loading" ? (
             <span className="text-gray-500 text-sm animate-pulse">
@@ -108,7 +106,6 @@ const Header = () => {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                {/* Home + Dashboard → only visible on mobile */}
                 <div className="md:hidden">
                   <DropdownMenuItem asChild>
                     <Link href="/" className="w-full">

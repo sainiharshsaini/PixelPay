@@ -10,7 +10,6 @@ import {
   fetchRecentTransactions,
 } from "@/lib/actions/fetchTxns&Balance";
 
-// Make this page dynamic since it uses server functions that access headers
 export const dynamic = 'force-dynamic';
 
 interface Balance {
@@ -81,7 +80,6 @@ const Dashboard = async () => {
     return <Loading />;
   }
 
-  // Map OnRampTransaction[] to Transaction[] so the props match
   const mappedOnRampTxns: Transaction[] = onRampTxns.map((txn) => ({
     time: txn.startTime,
     amount: txn.amount,

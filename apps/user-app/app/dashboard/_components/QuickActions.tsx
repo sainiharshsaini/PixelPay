@@ -95,7 +95,6 @@ const QuickActions = () => {
                 </DialogDescription>
               </DialogHeader>
 
-              {/* 🔹 Conditional rendering */}
               {item.action === "addMoney" && (
                 <AddMoneyForm onSuccess={handleSuccess} />
               )}

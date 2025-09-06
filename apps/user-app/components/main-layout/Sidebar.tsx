@@ -11,7 +11,6 @@ const sidebarLinks = [
 const Sidebar = () => {
     return (
         <>
-            {/* Desktop/Laptop Sidebar */}
             <nav className="
                 hidden md:flex flex-col fixed left-0 top-0 h-full w-66
                 bg-gradient-to-br from-white via-slate-50 to-purple-50
@@ -30,7 +29,7 @@ const Sidebar = () => {
                     ))}
                 </div>
             </nav>
-            {/* Mobile/Tablet Bottom Bar */}
+
             <nav className="
                 md:hidden fixed bottom-0 left-0 w-full
                 bg-gradient-to-t from-white via-slate-50 to-purple-50

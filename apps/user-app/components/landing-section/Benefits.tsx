@@ -18,13 +18,13 @@ const benefits = [
 const Benefits = React.memo(() => {
   return (
     <section className="relative py-28 bg-background overflow-hidden">
-      {/* Decorative blurred backgrounds */}
+
       <div className="absolute -top-10 -left-10 w-[400px] h-[400px] bg-gradient-to-br from-blue-500 via-purple-400 to-pink-400 blur-[120px] opacity-20 rounded-full z-0" />
       <div className="absolute bottom-0 -right-10 w-[400px] h-[400px] bg-gradient-to-br from-pink-500 via-yellow-400 to-purple-400 blur-[120px] opacity-20 rounded-full z-0" />
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* LEFT TEXT SIDE */}
+
           <div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 leading-tight tracking-tight">
               Everything you need for modern payments
@@ -52,7 +52,6 @@ const Benefits = React.memo(() => {
               ))}
             </div>
 
-            {/* CTA */}
             <Button
               size="lg"
               className="mt-10 text-lg px-8 py-4 h-auto bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 hover:shadow-2xl hover:scale-105 transition-all"
@@ -64,10 +63,9 @@ const Benefits = React.memo(() => {
             </Button>
           </div>
 
-          {/* RIGHT CARD SIDE */}
           <div className="relative">
             <Card className="p-10 bg-gradient-glass backdrop-blur-xl border-white/20 shadow-elegant rounded-3xl overflow-hidden relative">
-              {/* Inner background effects */}
+
               <div className="absolute inset-0 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 opacity-[0.08]" />
               <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-pink-400 to-indigo-400 blur-2xl opacity-20 rounded-full" />
 

@@ -12,13 +12,13 @@ const footerLinks = {
 const Footer = () => {
   return (
     <footer className="relative bg-white/80 backdrop-blur-md border-t py-12 text-sm text-muted-foreground overflow-hidden">
-      {/* Decorative Gradient Blur */}
+      
       <div className="absolute -top-20 -left-32 w-96 h-96 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 blur-[120px] opacity-20 rounded-full -z-10" />
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-br from-pink-400 to-indigo-400 blur-[100px] opacity-20 rounded-full -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid gap-10 md:grid-cols-4">
-          {/* Brand */}
+
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-lg flex items-center justify-center font-bold shadow">
@@ -31,7 +31,6 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Sections */}
           <div>
             <h4 className="font-semibold text-gray-900 mb-4 tracking-wide uppercase text-xs">Product</h4>
             <ul className="space-y-2">
@@ -81,7 +80,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="border-t border-gray-200 mt-10 pt-6 text-center text-xs text-gray-400">
           <p>
             © {new Date().getFullYear()} <span className="font-semibold text-gray-600">PixelPay</span>. All rights reserved.

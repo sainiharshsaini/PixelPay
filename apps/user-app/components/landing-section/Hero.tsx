@@ -8,7 +8,7 @@ import { ArrowRight, Zap } from 'lucide-react'
 const Hero = React.memo(() => {
   return (
     <section className="relative overflow-hidden min-h-screen flex items-center justify-center">
-      {/* Layered Gradient Backgrounds */}
+
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 opacity-20 pointer-events-none" />
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 rounded-full blur-[120px] opacity-30 animate-pulse" />
@@ -20,12 +20,11 @@ const Hero = React.memo(() => {
       </div>
 
       <div className="relative z-10 container mx-auto px-6 py-20 text-center">
-        {/* Badge */}
+  
         <Badge className="mb-8 animate-fade-in bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 backdrop-blur-md border-white/20 text-foreground shadow-glass">
           ✨ Trusted by 1L+ users worldwide
         </Badge>
 
-        {/* Hero Title */}
         <h1
           className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight text-foreground mb-8 animate-fade-in"
           style={{ animationDelay: '200ms' }}
@@ -37,7 +36,6 @@ const Hero = React.memo(() => {
           </span>
         </h1>
 
-        {/* Subtitle */}
         <p
           className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed animate-fade-in"
           style={{ animationDelay: '400ms' }}
@@ -46,7 +44,6 @@ const Hero = React.memo(() => {
           secure and user-friendly payment platform.
         </p>
 
-        {/* CTA Buttons */}
         <div
           className="flex flex-col sm:flex-row justify-center gap-6 mb-16 animate-fade-in"
           style={{ animationDelay: '600ms' }}
@@ -72,11 +69,10 @@ const Hero = React.memo(() => {
           </Button>
         </div>
 
-        {/* Demo Card */}
         <div className="animate-fade-in" style={{ animationDelay: '800ms' }}>
           <Card className="max-w-5xl mx-auto p-8 bg-gradient-glass backdrop-blur-xl border-white/20 shadow-elegant rounded-3xl">
             <div className="aspect-video bg-gradient-to-br from-white via-gray-100 to-gray-200 rounded-2xl flex items-center justify-center relative overflow-hidden">
-              {/* Floating Pulse Dots */}
+
               <div className="absolute top-4 left-4 w-3 h-3 bg-success rounded-full animate-pulse" />
               <div
                 className="absolute top-4 right-4 w-3 h-3 bg-warning rounded-full animate-pulse"
@@ -87,7 +83,6 @@ const Hero = React.memo(() => {
                 style={{ animationDelay: '2s' }}
               />
 
-              {/* Center Content */}
               <div className="z-10 text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-glow">
                   <Zap className="h-10 w-10 text-white animate-pulse" />

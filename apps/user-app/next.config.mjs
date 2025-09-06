@@ -7,7 +7,6 @@ const nextConfig = {
     disableFileSystemPublicRoutes: true,
   },
   webpack: (config, { isServer }) => {
-    // Prevent webpack from scanning external directories
     config.watchOptions = {
       ignored: [
         '**/node_modules/**',

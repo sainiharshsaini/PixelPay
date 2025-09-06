@@ -22,11 +22,11 @@ const WelcomeCard = () => {
         text-white shadow-lg overflow-hidden
       "
     >
-      {/* Subtle glowing background effect */}
+
       <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_left,_#ffffff40,_transparent_50%)]"></div>
 
       <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-6">
-        {/* Avatar */}
+
         <Avatar className="h-16 w-16 border-2 border-white shadow-md">
           <AvatarImage src={session?.user?.image || ""} />
           <AvatarFallback className="bg-white text-purple-600 font-bold">
@@ -34,7 +34,6 @@ const WelcomeCard = () => {
           </AvatarFallback>
         </Avatar>
 
-        {/* Text */}
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
           <div className="flex items-center gap-2 text-2xl sm:text-3xl font-bold">
             <h1>Welcome,</h1>

@@ -38,7 +38,6 @@ console.log(amount);
     message: "Payment processing started",
   });
 
-  // After 3 seconds, simulate payment result and send webhook
   setTimeout(async () => {
     const finalStatus = getPaymentStatus();
 

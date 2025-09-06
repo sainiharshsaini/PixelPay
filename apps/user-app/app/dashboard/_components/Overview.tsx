@@ -40,7 +40,7 @@ const Overview = async () => {
     .filter(
       (t) => t.status === "Success" && new Date(t.time) >= startOfMonth
     )
-    .reduce((acc, t) => acc + t.amount / 100, 0); // paise → INR
+    .reduce((acc, t) => acc + t.amount / 100, 0);
 
   monthlyIncome += recentTxns.filter(
     (t) => t.type === "income" && new Date(t.date) >= startOfMonth

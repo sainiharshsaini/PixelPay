@@ -20,7 +20,6 @@ export function SendForm({ onSuccess }: { onSuccess: () => void }) {
     const trimmedNumber = recipientNumber.trim();
     const numericAmount = Number(amount);
 
-    // 🔹 Validation
     if (!/^\d{10}$/.test(trimmedNumber)) {
       toast.error("Please enter a valid 10-digit phone number.");
       return;
@@ -30,7 +29,6 @@ export function SendForm({ onSuccess }: { onSuccess: () => void }) {
       return;
     }
 
-    // Convert to paise (integer)
     const paise = Math.round(numericAmount);
 
     try {
@@ -56,7 +54,7 @@ export function SendForm({ onSuccess }: { onSuccess: () => void }) {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Recipient */}
+  
       <div className="grid gap-2">
         <label
           htmlFor="recipient"
@@ -75,7 +73,6 @@ export function SendForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
 
-      {/* Amount */}
       <div className="grid gap-2">
         <label htmlFor="amount" className="text-sm font-medium text-foreground">
           Amount (INR)
@@ -92,7 +89,6 @@ export function SendForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
 
-      {/* Button */}
       <Button
         onClick={handleSend}
         disabled={isLoading}

@@ -9,10 +9,10 @@ interface Transaction {
   id: string | number;
   title: string;
   description: string;
-  amount: number; // stored in INR
+  amount: number;
   type: "income" | "expense";
-  date?: string | Date; // API may return string
-  time?: string | Date; // ✅ added
+  date?: string | Date;
+  time?: string | Date;
   status?: "Success" | "Pending" | "Failed";
 }
 
@@ -21,7 +21,6 @@ interface RecentTransactionsProps {
   isLoading?: boolean;
 }
 
-// ✅ Utility: consistent INR formatting
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -29,7 +28,6 @@ const formatCurrency = (amount: number) =>
     minimumFractionDigits: 2,
   }).format(amount);
 
-// ✅ Utility: safe date formatting
 const formatDate = (date?: string | Date) => {
   if (!date) return null;
   const d = date instanceof Date ? date : new Date(date);
@@ -40,7 +38,6 @@ const formatDate = (date?: string | Date) => {
   });
 };
 
-// ✅ Utility: time formatting
 const formatTime = (time?: string | Date) => {
   if (!time) return null;
   const t = time instanceof Date ? time : new Date(time);
@@ -61,7 +58,7 @@ const RecentTransactions = ({
 
   return (
     <div className="w-full">
-      {/* Header */}
+
       <div className="flex justify-between items-center mb-4">
         <div>
           <h2 className="text-lg font-semibold text-slate-800">
@@ -81,10 +78,9 @@ const RecentTransactions = ({
         )}
       </div>
 
-      {/* Card */}
       <Card className="p-6 shadow-sm rounded-2xl border border-slate-200 bg-white">
         {isLoading ? (
-          // Skeleton loader
+
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
               <div
@@ -109,7 +105,7 @@ const RecentTransactions = ({
                 key={txn.id}
                 className="flex justify-between items-center p-3 rounded-xl hover:bg-slate-50 transition duration-200"
               >
-                {/* Left Side */}
+
                 <div className="flex items-center gap-3">
                   {txn.type === "income" ? (
                     <ArrowDownCircle className="h-6 w-6 text-green-500" />
@@ -122,7 +118,6 @@ const RecentTransactions = ({
                       {txn.description}
                     </p>
 
-                    {/* Date + Time */}
                     {(txn.date || txn.time) && (
                       <p className="text-[11px] text-slate-400">
                         {formatDate(txn.date)}{" "}
@@ -130,7 +125,6 @@ const RecentTransactions = ({
                       </p>
                     )}
 
-                    {/* Status */}
                     {txn.status && (
                       <p
                         className={cn(
@@ -146,7 +140,6 @@ const RecentTransactions = ({
                   </div>
                 </div>
 
-                {/* Right Side */}
                 <p
                   className={cn(
                     "font-semibold text-sm",
@@ -160,7 +153,7 @@ const RecentTransactions = ({
             ))}
           </div>
         ) : (
-          // Empty State
+      
           <div className="text-center py-10">
             <div className="flex justify-center mb-3">
               <ArrowUpCircle className="h-10 w-10 text-slate-300" />

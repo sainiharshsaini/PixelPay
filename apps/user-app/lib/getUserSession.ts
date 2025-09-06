@@ -14,6 +14,6 @@ export async function getUserSession(): Promise<Session | null> {
 
   } catch (err) {
     console.error("[getUserSession] Error fetching session:", err);
-    return null; // Fail gracefully in production
+    return null;
   }
 }
