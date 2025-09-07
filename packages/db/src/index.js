@@ -15,6 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
-var client_1 = require("./client"); // exports instance of prisma 
+var client_1 = require("./client");
 Object.defineProperty(exports, "prisma", { enumerable: true, get: function () { return client_1.prisma; } });
-__exportStar(require("../generated/prisma"), exports); // exports generated types from prisma
+__exportStar(require("../generated/prisma"), exports);
